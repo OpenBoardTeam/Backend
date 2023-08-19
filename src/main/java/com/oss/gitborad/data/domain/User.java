@@ -17,25 +17,34 @@ public class User extends Base{
     private Long id;
 
     @Column(length = 45)
-    @NotNull
     private String email;
 
     @Column(length = 45)
-    @NotNull
     private String name;
 
     @Column(columnDefinition = "text")
     private String description;
 
     @Column(columnDefinition = "TEXT", name = "git_url")
-    @NotNull
     private String gitUrl;
 
     @Column(columnDefinition = "TEXT", name = "profile_image_url")
-    @NotNull
     private String imageUrl;
 
     @Column(columnDefinition = "TEXT")
-    @NotNull
     private String token;
+
+    static public User oauth2Register(
+            String name,
+            String email,
+            String url,
+            String avatar_url
+    ) {
+        User user = new User();
+        user.name = name;
+        user.email = email;
+        user.gitUrl = url;
+        user.imageUrl = avatar_url;
+        return user;
+    }
 }

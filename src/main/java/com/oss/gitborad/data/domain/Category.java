@@ -29,7 +29,8 @@ public class Category extends Base{
     private Integer depth;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_id")
+    @JoinColumn(name="parent_category")
+    @ToString.Exclude
     private Category topCategory; //자기참조
 
 }
