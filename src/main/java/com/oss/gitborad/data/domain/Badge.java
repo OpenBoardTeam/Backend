@@ -1,5 +1,6 @@
 package com.oss.gitborad.data.domain;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,16 @@ public class Badge extends Base{
     private Long id;
 
     @Column(length = 40)
+    @NotNull
     private String name;
 
     @Column(columnDefinition = "text")
-    private String detail;
+    @NotNull
+    private String description;
+
+    @Column(columnDefinition = "TEXT", name = "image_url")
+    @NotNull
+    private String imageUrl;
+
+
 }

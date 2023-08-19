@@ -1,5 +1,6 @@
 package com.oss.gitborad.data.domain;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -17,11 +18,20 @@ public class Project extends Base{
     @Column(name = "project_id")
     private Long id;
 
-    @Column(name = "name", columnDefinition = "text")
+    @Column(length = 45)
+    @NotNull
     private String name;
 
+    @Column(columnDefinition = "text")
+    private String description;
+
     @Column(name = "git_url", columnDefinition = "text")
+    @NotNull
     private String gitUrl;
+
+    @Column(length = 20)
+    @NotNull
+    private String type;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

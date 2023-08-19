@@ -18,10 +18,10 @@ public class ProjectCategory extends Base{
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

@@ -1,5 +1,6 @@
 package com.oss.gitborad.data.domain;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +20,16 @@ public class Category extends Base{
     @Column(name = "category_id")
     private Long id;
 
-    @Column(length = 20, name = "classify")
-    private String classify;
-
-    @Column(length = 40, name = "name")
+    @Column(length = 20)
+    @NotNull
     private String name;
+
+    @Column(name = "depth")
+    @NotNull
+    private Integer depth;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="category_id")
+    private Category topCategory; //자기참조
+
 }

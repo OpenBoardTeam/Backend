@@ -1,5 +1,6 @@
 package com.oss.gitborad.data.domain;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -10,19 +11,21 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @ToString
-@Table(name = "user_banafit")
-public class UserBanafit extends Base{
+@Table(name = "user_badge")
+public class UserBadge extends Base{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_banafit_id")
+    @Column(name = "user_badge_id")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @NotNull
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "badge_id")
+    @NotNull
     private Badge badge;
 
 }
