@@ -33,6 +33,10 @@ public class Project extends Base{
     @NotNull
     private String type;
 
+    @Column(name = "owner_url", columnDefinition = "text")
+    @NotNull
+    private String ownerUrl;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
