@@ -18,6 +18,7 @@ bin/
 
 ### IntelliJ IDEA ###
 application-DB.properties
+application-Git.properties
 .idea
 *.iws
 *.iml
