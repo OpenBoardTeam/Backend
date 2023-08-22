@@ -1,11 +1,14 @@
 package com.oss.gitborad.data.domain;
 
 import com.sun.istack.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,4 +43,17 @@ public class Project extends Base{
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<ProjectCategory> categoryList = new ArrayList<>();
+
+    @Builder
+    public Project(String name, String description, String gitUrl, String type, String ownerUrl, User user){
+        this.name = name;
+        this.description = description;
+        this.gitUrl = gitUrl;
+        this.type = type;
+        this.ownerUrl = ownerUrl;
+        this.user = user;
+    }
 }

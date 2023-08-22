@@ -1,7 +1,10 @@
 package com.oss.gitborad.data.domain;
 
 import com.sun.istack.NotNull;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -9,24 +12,19 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @ToString
-@Table(name = "category")
-public class Category extends Base{
+@Table(name = "category_group")
+public class CategoryGroup extends Base{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
+    @Column(name = "category_group_id")
     private Long id;
 
     @Column(length = 20)
     @NotNull
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name="category_group_id")
-    private CategoryGroup group;
-
     @Builder
-    public Category(String name, CategoryGroup group){
+    public CategoryGroup(String name){
         this.name = name;
-        this.group = group;
     }
 }
