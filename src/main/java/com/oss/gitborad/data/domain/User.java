@@ -4,6 +4,8 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +35,13 @@ public class User extends Base{
 
     @Column(columnDefinition = "TEXT")
     private String token;
+
+    @OneToMany(mappedBy = "badge", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<UserBadge> badgeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Interest> interestList = new ArrayList<>();
+
 
     static public User oauth2Register(
             String name,

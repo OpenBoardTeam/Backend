@@ -1,7 +1,10 @@
 package com.oss.gitborad.service.impl;
 
 import com.oss.gitborad.data.domain.User;
+import com.oss.gitborad.data.domain.UserBadge;
 import com.oss.gitborad.data.dto.UserDTO;
+import com.oss.gitborad.data.repository.BadgeRepository;
+import com.oss.gitborad.data.repository.UserBadgeRepository;
 import com.oss.gitborad.repository.UserRepository;
 import com.oss.gitborad.security.oauth.OAuthAttributes;
 import com.oss.gitborad.service.UserService;
@@ -18,10 +21,14 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends DefaultOAuth2UserService implements UserService {
 
     final private UserRepository userRepository;
+    final private BadgeRepository badgeRepository;
+    final private UserBadgeRepository userBadgeRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BadgeRepository badgeRepository, UserBadgeRepository userBadgeRepository) {
         this.userRepository = userRepository;
+        this.badgeRepository = badgeRepository;
+        this.userBadgeRepository = userBadgeRepository;
     }
 
     @Override
@@ -50,5 +57,26 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
         return UserDTO.Info.builder()
                 .user(byEmail).attributes(oAuth2User.getAttributes()).build();
+    }
+
+
+    @Override
+    public UserDTO.infoForAll findOne(Long id) {
+        User user = userRepository.getById(id);
+
+        UserDTO.infoForAll findDTO = new UserDTO.infoForAll(user);
+
+        return findDTO;
+    }
+
+    @Override
+    public void saveForBadge(UserDTO.badgeRequest requestDTO) {
+        UserBadge userBadge = UserBadge.builder()
+                .user(userRepository.getById(requestDTO.getUserId()))
+                .badge(badgeRepository.getById(requestDTO.getBadgeId()))
+                .build();
+
+        userBadgeRepository.save(userBadge);
+
     }
 }

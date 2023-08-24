@@ -1,10 +1,8 @@
 package com.oss.gitborad.data.domain;
 
+import com.oss.gitborad.data.dto.BadgeDTO;
 import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -31,5 +29,11 @@ public class Badge extends Base{
     @NotNull
     private String imageUrl;
 
+    @Builder
+    public Badge(BadgeDTO.request requestDTO){
+        this.name = requestDTO.getName();
+        this.description = requestDTO.getDescription();
+        this.imageUrl = requestDTO.getImageUrl();
+    }
 
 }

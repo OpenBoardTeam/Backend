@@ -1,9 +1,9 @@
 package com.oss.gitborad.data.dto;
 
+import com.oss.gitborad.data.domain.Interest;
 import com.oss.gitborad.data.domain.User;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import io.swagger.annotations.ApiModel;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UserDTO {
     @Data
@@ -40,4 +41,46 @@ public class UserDTO {
             return user.getName();
         }
     }
+
+    @Data
+    @ToString
+    @ApiModel("UserInfo")
+    public static class infoForAll {
+        private Long id;
+        private String name;
+        private String email;
+        private String description;
+        private String gitUrl;
+        private String imageUrl;
+        private List<String> badgeList;
+        private List<String> interestList;
+
+        public infoForAll(User user) {
+            this.id = user.getId();
+            this.name = user.getName();
+            this.email = user.getEmail();
+            this.description = user.getDescription();
+            this.gitUrl = user.getGitUrl();
+            this.imageUrl = user.getImageUrl();
+            this.badgeList = user.getBadgeList().stream()
+                    .map(x -> x.getBadge().getName())
+                    .collect(Collectors.toList());
+            this.interestList = user.getInterestList().stream()
+                    .map(x -> x.getCategory().getName())
+                    .collect(Collectors.toList());
+
+        }
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @ToString
+    @ApiModel("UserBadgeRequest")
+    public static class badgeRequest{
+        private Long userId;
+        private Long badgeId;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.oss.gitborad.data.domain;
 
 import com.sun.istack.NotNull;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -27,5 +28,11 @@ public class UserBadge extends Base{
     @JoinColumn(name = "badge_id")
     @NotNull
     private Badge badge;
+
+    @Builder
+    public UserBadge(User user, Badge badge){
+        this.user = user;
+        this.badge = badge;
+    }
 
 }
