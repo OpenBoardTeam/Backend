@@ -21,7 +21,6 @@ public class ProjectDTO {
         private String description;
         private String simple_description;
         private String gitUrl;
-        private String ownerUrl;
         private String userName;
         private List<String> categories;
         private List<String> framework;
@@ -35,7 +34,6 @@ public class ProjectDTO {
             this.description = project.getDescription();
             this.simple_description = project.getSimple_description();
             this.gitUrl = project.getGitUrl();
-            this.ownerUrl = project.getOwnerUrl();
             this.userName = project.getUser().getName();
             this.categories = project.getCategoryList().stream()
                     .filter(x -> x.getCategory().getGroup().getName().equals("categories"))
@@ -63,8 +61,8 @@ public class ProjectDTO {
     public static class Request {
         private String name;
         private String description;
+        private String simple_description;
         private String gitUrl;
-        private String ownerUrl;
         private Long userId;
         private List<String> categories;
     }

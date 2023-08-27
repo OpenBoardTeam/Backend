@@ -35,9 +35,6 @@ public class Project extends Base{
     @Column(length = 20)
     private String type;
 
-    @Column(name = "owner_url", columnDefinition = "text")
-    private String ownerUrl;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
