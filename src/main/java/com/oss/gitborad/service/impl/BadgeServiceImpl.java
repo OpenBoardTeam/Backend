@@ -2,7 +2,7 @@ package com.oss.gitborad.service.impl;
 
 import com.oss.gitborad.data.domain.Badge;
 import com.oss.gitborad.data.dto.BadgeDTO;
-import com.oss.gitborad.data.repository.BadgeRepository;
+import com.oss.gitborad.repository.BadgeRepository;
 import com.oss.gitborad.service.BadgeService;
 import org.springframework.stereotype.Service;
 
