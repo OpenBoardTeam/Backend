@@ -1,6 +1,5 @@
 package com.oss.gitborad.data.domain;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,22 +21,21 @@ public class Project extends Base{
     private Long id;
 
     @Column(length = 45)
-    @NotNull
     private String name;
 
     @Column(columnDefinition = "text")
     private String description;
 
+    @Column(columnDefinition = "text")
+    private String simple_description;
+
     @Column(name = "git_url", columnDefinition = "text")
-    @NotNull
     private String gitUrl;
 
     @Column(length = 20)
-    @NotNull
     private String type;
 
     @Column(name = "owner_url", columnDefinition = "text")
-    @NotNull
     private String ownerUrl;
 
     @ManyToOne
@@ -48,9 +46,10 @@ public class Project extends Base{
     private List<ProjectCategory> categoryList = new ArrayList<>();
 
     @Builder
-    public Project(String name, String description, String gitUrl, String type, String ownerUrl, User user){
+    public Project(String name, String description, String simple_description, String gitUrl, String type, String ownerUrl, User user){
         this.name = name;
         this.description = description;
+        this.simple_description = simple_description;
         this.gitUrl = gitUrl;
         this.type = type;
         this.ownerUrl = ownerUrl;

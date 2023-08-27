@@ -15,10 +15,11 @@ public class ProjectDTO {
     @Data
     @ToString
     @ApiModel("ProjectInfo")
-    public static class info{
+    public static class Info {
         private Long id;
         private String name;
         private String description;
+        private String simple_description;
         private String gitUrl;
         private String ownerUrl;
         private String userName;
@@ -28,10 +29,11 @@ public class ProjectDTO {
         private LocalDateTime createdAt;
         private LocalDateTime updateAT;
 
-        public info(Project project){
+        public Info(Project project){
             this.id = project.getId();
             this.name = project.getName();
             this.description = project.getDescription();
+            this.simple_description = project.getSimple_description();
             this.gitUrl = project.getGitUrl();
             this.ownerUrl = project.getOwnerUrl();
             this.userName = project.getUser().getName();
@@ -58,7 +60,7 @@ public class ProjectDTO {
     @Builder
     @ToString
     @ApiModel("ProjectRequest")
-    public static class request{
+    public static class Request {
         private String name;
         private String description;
         private String gitUrl;
@@ -74,7 +76,7 @@ public class ProjectDTO {
     @Builder
     @ToString
     @ApiModel("ProjectCategoryRequest")
-    public static class categoryRequest{
+    public static class CategoryRequest {
         private Long projectId;
         private Long categoryId;
     }
