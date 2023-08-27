@@ -1,6 +1,5 @@
 package com.oss.gitborad.data.domain;
 
-import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,6 @@ public class CategoryGroup extends Base{
     private Long id;
 
     @Column(length = 20)
-    @NotNull
     private String name;
 
     @Builder

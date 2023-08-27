@@ -11,7 +11,7 @@ public class BookmarkDTO
     @Data
     @ToString
     @ApiModel("bookmarkInfo")
-    public static class info{
+    public static class Info {
         private Long id;
         private String userName;
         private String projectName;
@@ -19,7 +19,7 @@ public class BookmarkDTO
         private LocalDateTime createAT;
         private LocalDateTime updateAT;
 
-        public info(Bookmark bookmark){
+        public Info(Bookmark bookmark){
             this.id = bookmark.getId();
             this.userName = bookmark.getUser().getName();
             this.projectName = bookmark.getProject().getName();
@@ -32,7 +32,7 @@ public class BookmarkDTO
     @Data
     @ToString
     @ApiModel("bookmarkListInfo")
-    public static class infoForList{
+    public static class InfoForList {
         private Long id;
         private String projectName;
         private String projectDescription;
@@ -42,7 +42,7 @@ public class BookmarkDTO
         private LocalDateTime createAT;
         private LocalDateTime updateAT;
 
-        public infoForList(Bookmark bookmark){
+        public InfoForList(Bookmark bookmark){
             this.id = bookmark.getId();
             this.projectName = bookmark.getProject().getName();
             this.projectDescription = bookmark.getProject().getDescription();
@@ -59,7 +59,7 @@ public class BookmarkDTO
     @AllArgsConstructor
     @Builder
     @ApiModel("bookmarkRequest")
-    public static class request{
+    public static class Request {
         private Long userId;
         private Long projectId;
     }

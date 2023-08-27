@@ -1,8 +1,6 @@
 package com.oss.gitborad.controller;
 
-import com.oss.gitborad.data.domain.Badge;
 import com.oss.gitborad.data.dto.BadgeDTO;
-import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.BadgeService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
@@ -23,16 +21,16 @@ public class BadgeController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "뱃지 정보 조회")
-    public ResponseEntity<BadgeDTO.info> findOne(@PathVariable Long id) {
-        BadgeDTO.info findOneDto = badgeService.findOne(id);
+    public ResponseEntity<BadgeDTO.Info> findOne(@PathVariable Long id) {
+        BadgeDTO.Info findOneDto = badgeService.findOne(id);
         return ResponseEntity.status(HttpStatus.OK).body(findOneDto);
     }
 
 
     @PostMapping
     @ApiOperation(value = "뱃지 생성")
-    public ResponseEntity<BadgeDTO.info> save(@RequestBody BadgeDTO.request requestDTO) {
-        BadgeDTO.info saveDto = badgeService.save(requestDTO);
+    public ResponseEntity<BadgeDTO.Info> save(@RequestBody BadgeDTO.Request requestDTO) {
+        BadgeDTO.Info saveDto = badgeService.save(requestDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(saveDto);
     }

@@ -19,18 +19,18 @@ public class BadgeServiceImpl implements BadgeService {
     }
 
     @Override
-    public BadgeDTO.info findOne(Long id) {
+    public BadgeDTO.Info findOne(Long id) {
         Badge badge = badgeRepository.getById(id);
-        BadgeDTO.info findDTO = new BadgeDTO.info(badge);
+        BadgeDTO.Info findDTO = new BadgeDTO.Info(badge);
 
         return findDTO;
     }
 
     @Override
-    public BadgeDTO.info save(BadgeDTO.request requestDTO) {
+    public BadgeDTO.Info save(BadgeDTO.Request requestDTO) {
         Badge badge = new Badge(requestDTO);
 
-        BadgeDTO.info save = new BadgeDTO.info(badgeRepository.save(badge));
+        BadgeDTO.Info save = new BadgeDTO.Info(badgeRepository.save(badge));
 
         return save;
     }

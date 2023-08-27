@@ -1,6 +1,5 @@
 package com.oss.gitborad.data.domain;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +16,6 @@ public class Category extends Base{
     private Long id;
 
     @Column(length = 20)
-    @NotNull
     private String name;
 
     @ManyToOne

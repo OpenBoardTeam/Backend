@@ -1,6 +1,5 @@
 package com.oss.gitborad.data.dto;
 
-import com.oss.gitborad.data.domain.Interest;
 import com.oss.gitborad.data.domain.User;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
@@ -45,7 +44,7 @@ public class UserDTO {
     @Data
     @ToString
     @ApiModel("UserInfo")
-    public static class infoForAll {
+    public static class InfoForAll {
         private Long id;
         private String name;
         private String email;
@@ -55,7 +54,7 @@ public class UserDTO {
         private List<String> badgeList;
         private List<String> interestList;
 
-        public infoForAll(User user) {
+        public InfoForAll(User user) {
             this.id = user.getId();
             this.name = user.getName();
             this.email = user.getEmail();
@@ -78,7 +77,7 @@ public class UserDTO {
     @Builder
     @ToString
     @ApiModel("UserBadgeRequest")
-    public static class badgeRequest{
+    public static class BadgeRequest {
         private Long userId;
         private Long badgeId;
     }
