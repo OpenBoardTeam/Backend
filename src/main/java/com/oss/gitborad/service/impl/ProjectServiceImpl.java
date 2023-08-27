@@ -31,13 +31,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectDTO.info findOne(Long id) {
-        ProjectDTO.info findOneDto = new ProjectDTO.info(projectRepository.getById(id));
+    public ProjectDTO.Info findOne(Long id) {
+        ProjectDTO.Info findOneDto = new ProjectDTO.Info(projectRepository.getById(id));
         return findOneDto;
     }
 
     @Override
-    public ProjectDTO.info save(ProjectDTO.request requestDTO) {
+    public ProjectDTO.Info save(ProjectDTO.Request requestDTO) {
         User user = userRepository.getById(requestDTO.getUserId());
 
         Project project = Project.builder()
@@ -63,13 +63,13 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         //TODO: 저장 후 반환하는 Info 정보에 카테고리 데이터가 반영이 안되어있는 버그 수정 필요
-        ProjectDTO.info findOneDto = new ProjectDTO.info(project);
+        ProjectDTO.Info findOneDto = new ProjectDTO.Info(project);
 
         return findOneDto;
     }
 
     @Override
-    public void update(ProjectDTO.request requestDTO) {
+    public void update(ProjectDTO.Request requestDTO) {
 
     }
 

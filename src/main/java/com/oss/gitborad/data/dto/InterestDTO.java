@@ -11,12 +11,12 @@ public class InterestDTO {
     @Data
     @ToString
     @ApiModel("InterestInfo")
-    public static class info{
+    public static class Info {
         private Long id;
         private String user;
         private String Category;
 
-        public info(Interest interest){
+        public Info(Interest interest){
             this.id = interest.getId();
             this.user = interest.getUser().getName();
             this.Category = interest.getCategory().getName();
@@ -29,7 +29,7 @@ public class InterestDTO {
     @Builder
     @ToString
     @ApiModel("InterestRequest")
-    public static class request{
+    public static class Request {
         private Long userId;
         private List<String> categories;
     }

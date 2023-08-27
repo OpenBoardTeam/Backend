@@ -30,7 +30,7 @@ public class Badge extends Base{
     private String imageUrl;
 
     @Builder
-    public Badge(BadgeDTO.request requestDTO){
+    public Badge(BadgeDTO.Request requestDTO){
         this.name = requestDTO.getName();
         this.description = requestDTO.getDescription();
         this.imageUrl = requestDTO.getImageUrl();

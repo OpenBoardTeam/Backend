@@ -30,22 +30,22 @@ public class CategoryServiceImpl implements CategoryService {
 
     //Category
     @Override
-    public List<CategoryDTO.info> findListByGroup(Long id) {
+    public List<CategoryDTO.Info> findListByGroup(Long id) {
         CategoryGroup categoryGroup = categoryGroupRepository.getById(id);
 
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(0, categoryRepository.countByGroup(categoryGroup), sort);
-        Page<CategoryDTO.info> response = categoryRepository.findByGroup(categoryGroup, pageable).map(x -> new CategoryDTO.info(x));
+        Page<CategoryDTO.Info> response = categoryRepository.findByGroup(categoryGroup, pageable).map(x -> new CategoryDTO.Info(x));
 
-        List<CategoryDTO.info> pageRequestDTO = new ArrayList<>();
-        for (CategoryDTO.info i : response){
+        List<CategoryDTO.Info> pageRequestDTO = new ArrayList<>();
+        for (CategoryDTO.Info i : response){
             pageRequestDTO.add(i);
         }
         return pageRequestDTO;
     }
 
     @Override
-    public void saveCategory(CategoryDTO.request requestDTO) {
+    public void saveCategory(CategoryDTO.Request requestDTO) {
         Category category = Category.builder()
                 .name(requestDTO.getName())
                 .group(categoryGroupRepository.getById(requestDTO.getGroupId()))
@@ -61,7 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     //Category Group
     @Override
-    public void saveCategoryGroup(CategoryDTO.groupRequest requestDTO) {
+    public void saveCategoryGroup(CategoryDTO.GroupRequest requestDTO) {
         CategoryGroup categoryGroup = CategoryGroup.builder()
                 .name(requestDTO.getName())
                 .build();
