@@ -34,6 +34,16 @@ public class ProjectController {
         return ResponseEntity.status(HttpStatus.OK).body(saveDto);
     }
 
+    @GetMapping("/repo")
+    @ApiOperation(value = "Get basic info with url")
+    public ResponseEntity<ProjectDTO.ResponseBasicInfo> getBasicInfo(
+            @RequestParam String encodedUrl
+    ) {
+        ProjectDTO.ResponseBasicInfo basicInfo = projectService.getBasicInfo(encodedUrl);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(basicInfo);
+    }
+
     @DeleteMapping("/{id}")
     @ApiOperation(value = "프로젝트 삭제")
     public ResponseEntity<String> delete(@PathVariable Long id){

@@ -1,6 +1,7 @@
 package com.oss.gitborad.data.dto;
 
 import com.oss.gitborad.data.domain.Project;
+import com.oss.gitborad.data.model.Owner;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -65,6 +66,20 @@ public class ProjectDTO {
         private String gitUrl;
         private Long userId;
         private List<String> categories;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @ToString
+    @ApiModel("ProjectResponseBasicInfo")
+    public static class ResponseBasicInfo {
+        private String projectName;
+        private String simpleDescription;
+        private String description;
+        private Owner owner;
+        private String contributorsUrl;
     }
 
 

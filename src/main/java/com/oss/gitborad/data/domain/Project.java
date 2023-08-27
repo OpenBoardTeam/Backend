@@ -49,7 +49,6 @@ public class Project extends Base{
         this.simple_description = simple_description;
         this.gitUrl = gitUrl;
         this.type = type;
-        this.ownerUrl = ownerUrl;
         this.user = user;
     }
 }
