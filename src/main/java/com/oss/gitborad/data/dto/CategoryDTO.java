@@ -16,14 +16,14 @@ public class CategoryDTO {
     @Data
     @ToString
     @ApiModel("categoryInfo")
-    public static class info{
+    public static class Info {
         private Long id;
         private String name;
         private String groupName;
         private LocalDateTime createdAt;
         private LocalDateTime updateAT;
 
-        public info(Category category){
+        public Info(Category category){
             this.id = category.getId();
             this.name = category.getName();
             this.groupName = category.getGroup().getName();
@@ -37,7 +37,7 @@ public class CategoryDTO {
     @AllArgsConstructor
     @Builder
     @ApiModel("categoryRequest")
-    public static class request{
+    public static class Request {
         @NonNull
         private String name;
         @NonNull
@@ -48,13 +48,13 @@ public class CategoryDTO {
     @Data
     @ToString
     @ApiModel("CategoryGroupInfo")
-    public static class groupInfo{
+    public static class GroupInfo {
         private long id;
         private String name;
         private LocalDateTime createdAt;
         private LocalDateTime updateAT;
 
-        public groupInfo(CategoryGroup categoryGroup){
+        public GroupInfo(CategoryGroup categoryGroup){
             this.id = categoryGroup.getId();
             this.name = categoryGroup.getName();
             this.createdAt = categoryGroup.getCreatedAt();
@@ -67,7 +67,7 @@ public class CategoryDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     @ApiModel("CategoryGroupRequest")
-    public static class groupRequest{
+    public static class GroupRequest {
         private String name;
     }
 

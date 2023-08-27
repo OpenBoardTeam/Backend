@@ -19,6 +19,7 @@ bin/
 ### IntelliJ IDEA ###
 application-DB.properties
 application-Git.properties
+Dockerfile
 .idea
 *.iws
 *.iml

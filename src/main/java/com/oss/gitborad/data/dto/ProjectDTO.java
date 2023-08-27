@@ -1,6 +1,7 @@
 package com.oss.gitborad.data.dto;
 
 import com.oss.gitborad.data.domain.Project;
+import com.oss.gitborad.data.model.Owner;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -15,12 +16,12 @@ public class ProjectDTO {
     @Data
     @ToString
     @ApiModel("ProjectInfo")
-    public static class info{
+    public static class Info {
         private Long id;
         private String name;
         private String description;
+        private String simple_description;
         private String gitUrl;
-        private String ownerUrl;
         private String userName;
         private List<String> categories;
         private List<String> framework;
@@ -28,12 +29,12 @@ public class ProjectDTO {
         private LocalDateTime createdAt;
         private LocalDateTime updateAT;
 
-        public info(Project project){
+        public Info(Project project){
             this.id = project.getId();
             this.name = project.getName();
             this.description = project.getDescription();
+            this.simple_description = project.getSimple_description();
             this.gitUrl = project.getGitUrl();
-            this.ownerUrl = project.getOwnerUrl();
             this.userName = project.getUser().getName();
             this.categories = project.getCategoryList().stream()
                     .filter(x -> x.getCategory().getGroup().getName().equals("categories"))
@@ -58,13 +59,27 @@ public class ProjectDTO {
     @Builder
     @ToString
     @ApiModel("ProjectRequest")
-    public static class request{
+    public static class Request {
         private String name;
         private String description;
+        private String simple_description;
         private String gitUrl;
-        private String ownerUrl;
         private Long userId;
         private List<String> categories;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @ToString
+    @ApiModel("ProjectResponseBasicInfo")
+    public static class ResponseBasicInfo {
+        private String projectName;
+        private String simpleDescription;
+        private String description;
+        private Owner owner;
+        private String contributorsUrl;
     }
 
 
@@ -74,7 +89,7 @@ public class ProjectDTO {
     @Builder
     @ToString
     @ApiModel("ProjectCategoryRequest")
-    public static class categoryRequest{
+    public static class CategoryRequest {
         private Long projectId;
         private Long categoryId;
     }

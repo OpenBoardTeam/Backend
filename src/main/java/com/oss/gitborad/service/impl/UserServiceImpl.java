@@ -3,8 +3,8 @@ package com.oss.gitborad.service.impl;
 import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.domain.UserBadge;
 import com.oss.gitborad.data.dto.UserDTO;
-import com.oss.gitborad.data.repository.BadgeRepository;
-import com.oss.gitborad.data.repository.UserBadgeRepository;
+import com.oss.gitborad.repository.BadgeRepository;
+import com.oss.gitborad.repository.UserBadgeRepository;
 import com.oss.gitborad.repository.UserRepository;
 import com.oss.gitborad.security.oauth.OAuthAttributes;
 import com.oss.gitborad.service.UserService;
@@ -61,22 +61,21 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
 
     @Override
-    public UserDTO.infoForAll findOne(Long id) {
+    public UserDTO.InfoForAll findOne(Long id) {
         User user = userRepository.getById(id);
 
-        UserDTO.infoForAll findDTO = new UserDTO.infoForAll(user);
+        UserDTO.InfoForAll findDTO = new UserDTO.InfoForAll(user);
 
         return findDTO;
     }
 
     @Override
-    public void saveForBadge(UserDTO.badgeRequest requestDTO) {
+    public void saveForBadge(UserDTO.BadgeRequest requestDTO) {
         UserBadge userBadge = UserBadge.builder()
                 .user(userRepository.getById(requestDTO.getUserId()))
                 .badge(badgeRepository.getById(requestDTO.getBadgeId()))
                 .build();
 
         userBadgeRepository.save(userBadge);
-
     }
 }

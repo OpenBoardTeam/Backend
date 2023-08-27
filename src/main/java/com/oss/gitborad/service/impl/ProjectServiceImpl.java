@@ -5,15 +5,20 @@ import com.oss.gitborad.data.domain.Project;
 import com.oss.gitborad.data.domain.ProjectCategory;
 import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.dto.ProjectDTO;
-import com.oss.gitborad.data.repository.CategoryRepository;
-import com.oss.gitborad.data.repository.ProjectCategoryRepository;
-import com.oss.gitborad.data.repository.ProjectRepository;
+import com.oss.gitborad.data.model.GitHubRepositoryModel;
+import com.oss.gitborad.repository.CategoryRepository;
+import com.oss.gitborad.repository.ProjectCategoryRepository;
+import com.oss.gitborad.repository.ProjectRepository;
 import com.oss.gitborad.repository.UserRepository;
 import com.oss.gitborad.service.ProjectService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.transaction.Transactional;
 
+@Slf4j
 @Service
 @Transactional
 public class ProjectServiceImpl implements ProjectService {
@@ -31,20 +36,19 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectDTO.info findOne(Long id) {
-        ProjectDTO.info findOneDto = new ProjectDTO.info(projectRepository.getById(id));
+    public ProjectDTO.Info findOne(Long id) {
+        ProjectDTO.Info findOneDto = new ProjectDTO.Info(projectRepository.getById(id));
         return findOneDto;
     }
 
     @Override
-    public ProjectDTO.info save(ProjectDTO.request requestDTO) {
+    public ProjectDTO.Info save(ProjectDTO.Request requestDTO) {
         User user = userRepository.getById(requestDTO.getUserId());
 
         Project project = Project.builder()
                 .name(requestDTO.getName())
                 .description(requestDTO.getDescription())
                 .gitUrl(requestDTO.getGitUrl())
-                .ownerUrl(requestDTO.getOwnerUrl())
                 .user(user)
                 .build();
 
@@ -63,18 +67,63 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         //TODO: 저장 후 반환하는 Info 정보에 카테고리 데이터가 반영이 안되어있는 버그 수정 필요
-        ProjectDTO.info findOneDto = new ProjectDTO.info(project);
+        ProjectDTO.Info findOneDto = new ProjectDTO.Info(project);
 
         return findOneDto;
     }
 
     @Override
-    public void update(ProjectDTO.request requestDTO) {
+    public void update(ProjectDTO.Request requestDTO) {
 
+    }
+
+    @Override
+    public ProjectDTO.ResponseBasicInfo getBasicInfo(String url) {
+            WebClient webClient = WebClient.create("https://api.github.com/repos");
+            String uri = getRepositoryUri(url);
+        log.info("변환된 URI: {}", uri);
+
+            assert uri != null;
+
+            ResponseEntity<GitHubRepositoryModel> block = webClient.get()
+                    .uri(uri)
+                    .retrieve()
+                    .toEntity(GitHubRepositoryModel.class)
+                    .block();
+            log.info("블록: {}", block);
+
+            assert block != null; // Throw exception when block is null. (Unexpected url)
+
+            GitHubRepositoryModel model = block.getBody();
+            log.info("모델: {}",model);
+            assert model != null;
+
+            return ProjectDTO.ResponseBasicInfo.builder()
+                    .owner(model.owner)
+                    .projectName(model.name)
+                    .simpleDescription(model.description)
+                    .contributorsUrl(model.contributors_url)
+                    .build();
     }
 
     @Override
     public void delete(Long id) {
         projectRepository.deleteById(id);
+    }
+
+    private String getRepositoryUri(String url) {
+        String uri = url;
+        // Link should start with "https://github.com"
+        log.info("url: {}", url);
+        if(!uri.startsWith("https://github.com")) {
+            log.info("Url doesn't starts with \"prefix\"");
+            return null;
+        }
+        uri = uri.replace("https://github.com", "");
+        // Eliminate ".git"
+        if(uri.endsWith(".git")) {
+            uri = uri.replace(".git", "");
+        }
+        return uri;
     }
 }

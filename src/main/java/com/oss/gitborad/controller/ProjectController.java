@@ -20,18 +20,28 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "프로젝트 조회")
-    public ResponseEntity<ProjectDTO.info> findOne(@PathVariable Long id) {
-        ProjectDTO.info findOneDto = projectService.findOne(id);
+    public ResponseEntity<ProjectDTO.Info> findOne(@PathVariable Long id) {
+        ProjectDTO.Info findOneDto = projectService.findOne(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(findOneDto);
     }
 
     @PostMapping
     @ApiOperation(value = "프로젝트 생성")
-    public ResponseEntity<ProjectDTO.info> save(@RequestBody ProjectDTO.request requestDTO) {
-        ProjectDTO.info saveDto = projectService.save(requestDTO);
+    public ResponseEntity<ProjectDTO.Info> save(@RequestBody ProjectDTO.Request requestDTO) {
+        ProjectDTO.Info saveDto = projectService.save(requestDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(saveDto);
+    }
+
+    @GetMapping("/repo")
+    @ApiOperation(value = "Get basic info with url")
+    public ResponseEntity<ProjectDTO.ResponseBasicInfo> getBasicInfo(
+            @RequestParam String encodedUrl
+    ) {
+        ProjectDTO.ResponseBasicInfo basicInfo = projectService.getBasicInfo(encodedUrl);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(basicInfo);
     }
 
     @DeleteMapping("/{id}")

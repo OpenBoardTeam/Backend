@@ -4,8 +4,8 @@ import com.oss.gitborad.data.domain.Category;
 import com.oss.gitborad.data.domain.Interest;
 import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.dto.InterestDTO;
-import com.oss.gitborad.data.repository.CategoryRepository;
-import com.oss.gitborad.data.repository.InterestRepository;
+import com.oss.gitborad.repository.CategoryRepository;
+import com.oss.gitborad.repository.InterestRepository;
 import com.oss.gitborad.repository.UserRepository;
 import com.oss.gitborad.service.InterestService;
 import org.springframework.data.domain.Page;
@@ -33,24 +33,24 @@ public class InterestServiceImpl implements InterestService {
     }
 
     @Override
-    public List<InterestDTO.info> findListByUser(Long userId) {
+    public List<InterestDTO.Info> findListByUser(Long userId) {
         User user = userRepository.getById(userId);
 
         int interestCountByUser = interestRepository.countByUser(user);
 
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(0, interestCountByUser, sort);
-        Page<InterestDTO.info> response = interestRepository.findByUser(user, pageable).map(x -> new InterestDTO.info(x));
+        Page<InterestDTO.Info> response = interestRepository.findByUser(user, pageable).map(x -> new InterestDTO.Info(x));
 
-        List<InterestDTO.info> pageRequestDTO = new ArrayList<>();
-        for (InterestDTO.info i : response){
+        List<InterestDTO.Info> pageRequestDTO = new ArrayList<>();
+        for (InterestDTO.Info i : response){
             pageRequestDTO.add(i);
         }
         return pageRequestDTO;
     }
 
     @Override
-    public void save(InterestDTO.request requestDTO) {
+    public void save(InterestDTO.Request requestDTO) {
         User user = userRepository.getById(requestDTO.getUserId());
 
         for(String i : requestDTO.getCategories()){

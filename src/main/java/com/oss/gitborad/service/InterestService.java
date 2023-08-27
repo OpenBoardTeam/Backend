@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface InterestService {
 
-    List<InterestDTO.info> findListByUser(Long userId);
-    void save(InterestDTO.request requestDTO);
+    List<InterestDTO.Info> findListByUser(Long userId);
+    void save(InterestDTO.Request requestDTO);
     void delete(Long id);
 }

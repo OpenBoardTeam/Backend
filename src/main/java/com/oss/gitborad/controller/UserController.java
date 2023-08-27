@@ -19,21 +19,20 @@ public class UserController {
     }
 
 
-    @GetMapping("/{id}")
-    @ApiOperation(value = "사용자 조회")
-    public ResponseEntity<UserDTO.infoForAll> findOne(@PathVariable Long id) {
-        UserDTO.infoForAll findOneDto = userService.findOne(id);
-
-        return ResponseEntity.status(HttpStatus.OK).body(findOneDto);
-    }
+//    @GetMapping("/{id}")
+//    @ApiOperation(value = "사용자 조회")
+//    public ResponseEntity<UserDTO.infoForAll> findOne(@PathVariable Long id) {
+//        UserDTO.infoForAll findOneDto = userService.findOne(id);
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(findOneDto);
+//    }
 
     @PostMapping("/badge")
     @ApiOperation(value = "뱃지 부여", notes = "사용자에게 뱃지를 부여")
-    public ResponseEntity<UserDTO.infoForAll> save(@RequestBody UserDTO.badgeRequest requestDTO) {
+    public ResponseEntity<String> save(@RequestBody UserDTO.BadgeRequest requestDTO) {
         userService.saveForBadge(requestDTO);
-        UserDTO.infoForAll saveDto = userService.findOne(requestDTO.getUserId());
 
-        return ResponseEntity.status(HttpStatus.OK).body(saveDto);
+        return ResponseEntity.status(HttpStatus.OK).body("정상적으로 부여되었습니다.");
     }
 
 }

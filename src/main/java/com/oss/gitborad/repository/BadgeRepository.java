@@ -1,4 +1,4 @@
-package com.oss.gitborad.data.repository;
+package com.oss.gitborad.repository;
 
 import com.oss.gitborad.data.domain.Badge;
 import org.springframework.data.jpa.repository.JpaRepository;

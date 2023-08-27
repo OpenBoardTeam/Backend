@@ -3,8 +3,8 @@ package com.oss.gitborad.service.impl;
 import com.oss.gitborad.data.domain.Bookmark;
 import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.dto.BookmarkDTO;
-import com.oss.gitborad.data.repository.BookmarkRepository;
-import com.oss.gitborad.data.repository.ProjectRepository;
+import com.oss.gitborad.repository.BookmarkRepository;
+import com.oss.gitborad.repository.ProjectRepository;
 import com.oss.gitborad.repository.UserRepository;
 import com.oss.gitborad.service.BookmarkService;
 import org.springframework.data.domain.Page;
@@ -33,24 +33,24 @@ public class BookmarkServiceImpl implements BookmarkService {
     }
 
     @Override
-    public List<BookmarkDTO.infoForList> findListByUser(Long userId) {
+    public List<BookmarkDTO.InfoForList> findListByUser(Long userId) {
         User user = userRepository.getById(userId);
 
         int bookmarkCountByUser = bookmarkRepository.countByUser(user);
 
         Sort sort = Sort.by(Sort.Direction.DESC, "id");
         Pageable pageable = PageRequest.of(0, bookmarkCountByUser, sort);
-        Page<BookmarkDTO.infoForList> response = bookmarkRepository.findByUser(user, pageable).map(x -> new BookmarkDTO.infoForList(x) );
+        Page<BookmarkDTO.InfoForList> response = bookmarkRepository.findByUser(user, pageable).map(x -> new BookmarkDTO.InfoForList(x) );
 
-        List<BookmarkDTO.infoForList> pageRequestDTO = new ArrayList<>();
-        for (BookmarkDTO.infoForList i : response){
+        List<BookmarkDTO.InfoForList> pageRequestDTO = new ArrayList<>();
+        for (BookmarkDTO.InfoForList i : response){
             pageRequestDTO.add(i);
         }
         return pageRequestDTO;
     }
 
     @Override
-    public BookmarkDTO.info save(BookmarkDTO.request requestDTO) {
+    public BookmarkDTO.Info save(BookmarkDTO.Request requestDTO) {
         Bookmark bookmark = Bookmark.builder()
                 .user(userRepository.getById(requestDTO.getUserId()))
                 .project(projectRepository.getById(requestDTO.getProjectId()))
@@ -58,7 +58,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
         bookmarkRepository.save(bookmark);
 
-        BookmarkDTO.info saveDTO = new BookmarkDTO.info(bookmark);
+        BookmarkDTO.Info saveDTO = new BookmarkDTO.Info(bookmark);
 
         return saveDTO;
     }
