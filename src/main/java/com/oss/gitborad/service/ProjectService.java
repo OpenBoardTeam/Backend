@@ -2,6 +2,7 @@ package com.oss.gitborad.service;
 
 import com.oss.gitborad.data.domain.Category;
 import com.oss.gitborad.data.domain.User;
+import com.oss.gitborad.data.dto.CategoryDTO;
 import com.oss.gitborad.data.dto.ProjectDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ public interface ProjectService {
     List<ProjectDTO.Info> findListByUser(Long id);
     ProjectDTO.Info save(ProjectDTO.Request requestDTO);
     void update(ProjectDTO.Request requestDTO);
+    ProjectDTO.ResponseBasicInfo getBasicInfo(String url);
     void delete(Long id);
 
 }
