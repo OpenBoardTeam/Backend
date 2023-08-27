@@ -1,13 +1,9 @@
 package com.oss.gitborad.data.domain;
 
 import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
-
 
 @Entity
 @Getter
@@ -24,12 +20,13 @@ public class Category extends Base{
     @NotNull
     private String name;
 
-    @Column(name = "depth")
-    @NotNull
-    private Integer depth;
+    @ManyToOne
+    @JoinColumn(name="category_group_id")
+    private CategoryGroup group;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_id")
-    private Category topCategory; //자기참조
-
+    @Builder
+    public Category(String name, CategoryGroup group){
+        this.name = name;
+        this.group = group;
+    }
 }

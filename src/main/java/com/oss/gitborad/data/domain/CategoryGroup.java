@@ -12,27 +12,19 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @ToString
-@Table(name = "user_badge")
-public class UserBadge extends Base{
+@Table(name = "category_group")
+public class CategoryGroup extends Base{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_badge_id")
+    @Column(name = "category_group_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @Column(length = 20)
     @NotNull
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "badge_id")
-    @NotNull
-    private Badge badge;
+    private String name;
 
     @Builder
-    public UserBadge(User user, Badge badge){
-        this.user = user;
-        this.badge = badge;
+    public CategoryGroup(String name){
+        this.name = name;
     }
-
 }

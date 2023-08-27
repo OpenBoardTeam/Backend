@@ -1,8 +1,10 @@
 package com.oss.gitborad.data.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.security.core.parameters.P;
 
 import javax.persistence.*;
 
@@ -24,4 +26,10 @@ public class ProjectCategory extends Base{
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @Builder
+    public ProjectCategory(Project project, Category category){
+        this.project = project;
+        this.category = category;
+    }
 }
