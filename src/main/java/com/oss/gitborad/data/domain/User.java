@@ -36,6 +36,9 @@ public class User extends Base{
     @Column(columnDefinition = "TEXT")
     private String token;
 
+    @Column(columnDefinition = "varchar(45)", nullable = false)
+    private String role = "USER";
+
     @OneToMany(mappedBy = "badge", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<UserBadge> badgeList = new ArrayList<>();
 

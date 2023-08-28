@@ -19,7 +19,7 @@ public class UserDTO {
     @ToString
     static public class Info implements OAuth2User {
 
-        private String ROLE_PREFIX = "ROLE_";
+        final private String ROLE_PREFIX = "ROLE_";
         private User user;
         private Map<String, Object> attributes;
 
@@ -31,7 +31,7 @@ public class UserDTO {
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX+"USER"));
+            authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX+user.getRole()));
             return authorities;
         }
 
