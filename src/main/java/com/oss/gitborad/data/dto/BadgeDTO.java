@@ -33,6 +33,7 @@ public class BadgeDTO {
     public static class Request {
         private String name;
         private String description;
+        private String imageUrl;
     }
 
 }
