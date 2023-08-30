@@ -2,9 +2,11 @@ package com.oss.gitborad.service.impl;
 
 import com.oss.gitborad.data.domain.Category;
 import com.oss.gitborad.data.domain.CategoryGroup;
+import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.dto.CategoryDTO;
 import com.oss.gitborad.repository.CategoryGroupRepository;
 import com.oss.gitborad.repository.CategoryRepository;
+import com.oss.gitborad.repository.UserRepository;
 import com.oss.gitborad.service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,10 +24,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryGroupRepository categoryGroupRepository;
+    private final UserRepository userRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryGroupRepository categoryGroupRepository) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryGroupRepository categoryGroupRepository, UserRepository userRepository) {
         this.categoryRepository = categoryRepository;
         this.categoryGroupRepository = categoryGroupRepository;
+        this.userRepository = userRepository;
     }
 
     //Category
@@ -55,7 +59,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Long id) {
+    public void deleteCategory(Long id, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("카테고리를 찾을 수 없습니다."));
+//        if(category == null)
+//            throw new RuntimeException("삭제 권한이 없습니다. user: \"+userId");
+        // TODO: 카테고리를 만든 유저가 userId와 같은지 비교하는 로직
+
         categoryRepository.deleteById(id);
     }
 
@@ -70,7 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategoryGroup(Long id) {
+    public void deleteCategoryGroup(Long id, Long userId) {
         categoryGroupRepository.deleteById(id);
     }
 }

@@ -4,6 +4,7 @@ import com.oss.gitborad.data.domain.Category;
 import com.oss.gitborad.data.domain.Interest;
 import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.dto.InterestDTO;
+import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.repository.CategoryRepository;
 import com.oss.gitborad.repository.InterestRepository;
 import com.oss.gitborad.repository.UserRepository;
@@ -50,8 +51,8 @@ public class InterestServiceImpl implements InterestService {
     }
 
     @Override
-    public void save(InterestDTO.Request requestDTO) {
-        User user = userRepository.getById(requestDTO.getUserId());
+    public void save(InterestDTO.Request requestDTO, UserDTO.Info principal) {
+        User user = userRepository.getById(principal.getUser().getId());
 
         for(String i : requestDTO.getCategories()){
             //TODO: 카테고리가 존재하지 않을 경우 예외처리 필요

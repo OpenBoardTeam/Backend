@@ -64,7 +64,11 @@ public class BookmarkServiceImpl implements BookmarkService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id, Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        assert user != null;
+        if(!user.getId().equals(userId))
+            return;
         bookmarkRepository.deleteById(id);
     }
 }

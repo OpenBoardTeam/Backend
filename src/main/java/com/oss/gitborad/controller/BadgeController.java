@@ -39,7 +39,7 @@ public class BadgeController {
     @ApiOperation(value = "뱃지 삭제")
     public ResponseEntity<String> delete(@PathVariable Long id){
         badgeService.delete(id);
-
+        // TODO: 유저 인증 로직
         return ResponseEntity.status(HttpStatus.OK).body("정상적으로 삭제되었습니다.");
     }
 }
