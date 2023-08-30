@@ -1,10 +1,12 @@
 package com.oss.gitborad.controller;
 
 import com.oss.gitborad.data.dto.BookmarkDTO;
+import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.BookmarkService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +40,15 @@ public class BookmarkController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "북마크 취소")
-    public ResponseEntity<String> delete(@PathVariable Long id){
-        bookmarkService.delete(id);
+    public ResponseEntity<String> delete(
+            @AuthenticationPrincipal UserDTO.Info principal,
+            @PathVariable Long id
+    ){
+        if(principal == null)
+            return ResponseEntity.status(HttpStatus.OK).body("삭제 권한이 없습니다. 로그인을 해주세요.");
+
+        Long userId = principal.getUser().getId(); // Extract user_id
+        bookmarkService.delete(id, userId);
 
         return ResponseEntity.status(HttpStatus.OK).body("정상적으로 삭제되었습니다.");
     }

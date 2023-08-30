@@ -5,6 +5,7 @@ import com.oss.gitborad.data.domain.Project;
 import com.oss.gitborad.data.domain.ProjectCategory;
 import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.dto.ProjectDTO;
+import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.data.model.GitHubRepositoryModel;
 import com.oss.gitborad.repository.CategoryRepository;
 import com.oss.gitborad.repository.ProjectCategoryRepository;
@@ -128,8 +129,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void delete(Long id) {
-        projectRepository.deleteById(id);
+    public void delete(Long id, UserDTO.Info principal) {
+        Project project = projectRepository.findById(id).orElse(null);
+        if(project == null) return;
+        Long projectId = project.getUser().getId();
+        Long userId = principal.getUser().getId();
+        if(projectId.equals(userId)) {
+            projectRepository.deleteById(id);
+        }
     }
 
     private String getRepositoryUri(String url) {

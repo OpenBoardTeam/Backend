@@ -4,6 +4,7 @@ import com.oss.gitborad.data.domain.Category;
 import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.dto.CategoryDTO;
 import com.oss.gitborad.data.dto.ProjectDTO;
+import com.oss.gitborad.data.dto.UserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,6 +16,6 @@ public interface ProjectService {
     ProjectDTO.Info save(ProjectDTO.Request requestDTO);
     void update(ProjectDTO.Request requestDTO);
     ProjectDTO.ResponseBasicInfo getBasicInfo(String url);
-    void delete(Long id);
+    void delete(Long id, UserDTO.Info principal);
 
 }

@@ -1,10 +1,12 @@
 package com.oss.gitborad.controller;
 
 import com.oss.gitborad.data.dto.InterestDTO;
+import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.InterestService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,9 +32,13 @@ public class InterestController {
 
     @PostMapping
     @ApiOperation(value = "관심사 등록")
-    public ResponseEntity<List<InterestDTO.Info>> save(@RequestBody InterestDTO.Request requestDTO){
-        interestService.save(requestDTO);
-        List<InterestDTO.Info> saveList = interestService.findListByUser(requestDTO.getUserId());
+    public ResponseEntity<List<InterestDTO.Info>> save(
+            @AuthenticationPrincipal UserDTO.Info principal,
+            @RequestBody InterestDTO.Request requestDTO
+    ){
+        if(principal == null) return ResponseEntity.badRequest().body(null); // Unexpected user
+        interestService.save(requestDTO, principal);
+        List<InterestDTO.Info> saveList = interestService.findListByUser(principal.getUser().getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(saveList);
     }

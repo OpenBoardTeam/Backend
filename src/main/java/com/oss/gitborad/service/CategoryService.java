@@ -12,10 +12,10 @@ public interface CategoryService {
 
     List<CategoryDTO.Info> findAll(int pageNumber, int size);
     void saveCategory(CategoryDTO.Request requestDTO);
-    void deleteCategory(Long id);
+    void deleteCategory(Long id, Long userId);
 
     //category group
     void saveCategoryGroup(CategoryDTO.GroupRequest requestDTO);
-    void deleteCategoryGroup(Long id);
+    void deleteCategoryGroup(Long id, Long userId);
 
 }
