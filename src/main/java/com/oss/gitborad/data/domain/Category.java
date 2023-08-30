@@ -19,12 +19,17 @@ public class Category extends Base{
     private String name;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User writer;
+
+    @ManyToOne
     @JoinColumn(name="category_group_id")
     private CategoryGroup group;
 
     @Builder
-    public Category(String name, CategoryGroup group){
+    public Category(String name, User writer, CategoryGroup group){
         this.name = name;
+        this.writer = writer;
         this.group = group;
     }
 }

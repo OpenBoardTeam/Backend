@@ -2,6 +2,7 @@ package com.oss.gitborad.data.dto;
 
 import com.oss.gitborad.data.domain.Category;
 import com.oss.gitborad.data.domain.CategoryGroup;
+import com.sun.istack.NotNull;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class CategoryDTO {
     public static class Info {
         private Long id;
         private String name;
+        private String writerName;
         private String groupName;
         private LocalDateTime createdAt;
         private LocalDateTime updateAT;
@@ -26,6 +28,7 @@ public class CategoryDTO {
         public Info(Category category){
             this.id = category.getId();
             this.name = category.getName();
+            this.writerName = category.getWriter().getName();
             this.groupName = category.getGroup().getName();
             this.createdAt = category.getCreatedAt();
             this.updateAT = category.getUpdatedAt();
@@ -38,9 +41,11 @@ public class CategoryDTO {
     @Builder
     @ApiModel("categoryRequest")
     public static class Request {
-        @NonNull
+        @NotNull
         private String name;
-        @NonNull
+        @NotNull
+        private long writerId;
+        @NotNull
         private long groupId;
     }
 
