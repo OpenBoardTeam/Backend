@@ -1,5 +1,6 @@
 package com.oss.gitborad.controller;
 
+import com.oss.gitborad.data.dto.CategoryDTO;
 import com.oss.gitborad.data.dto.ProjectDTO;
 import com.oss.gitborad.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
@@ -7,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Controller
@@ -24,6 +27,14 @@ public class ProjectController {
         ProjectDTO.Info findOneDto = projectService.findOne(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(findOneDto);
+    }
+
+    @GetMapping("/list/{userId}")
+    @ApiOperation(value = "내가 작성한 프로젝트 글 조회")
+    public ResponseEntity<List<ProjectDTO.Info>> findListByUser(@PathVariable Long userId) {
+        List<ProjectDTO.Info> findList = projectService.findListByUser(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(findList);
     }
 
     @PostMapping

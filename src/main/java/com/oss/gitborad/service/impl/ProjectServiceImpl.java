@@ -10,9 +10,15 @@ import com.oss.gitborad.data.repository.ProjectCategoryRepository;
 import com.oss.gitborad.data.repository.ProjectRepository;
 import com.oss.gitborad.repository.UserRepository;
 import com.oss.gitborad.service.ProjectService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -37,6 +43,21 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<ProjectDTO.Info> findListByUser(Long id) {
+        User user = userRepository.getById(id);
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(0, projectRepository.countByUser(user), sort);
+        Page<ProjectDTO.Info> response = projectRepository.findByUser(user, pageable).map(ProjectDTO.Info::new);
+
+        List<ProjectDTO.Info> pageRequestDTO = new ArrayList<>();
+        for (ProjectDTO.Info i : response){
+            pageRequestDTO.add(i);
+        }
+        return pageRequestDTO;
+    }
+
+    @Override
     public ProjectDTO.Info save(ProjectDTO.Request requestDTO) {
         User user = userRepository.getById(requestDTO.getUserId());
 
@@ -44,7 +65,6 @@ public class ProjectServiceImpl implements ProjectService {
                 .name(requestDTO.getName())
                 .description(requestDTO.getDescription())
                 .gitUrl(requestDTO.getGitUrl())
-                .ownerUrl(requestDTO.getOwnerUrl())
                 .user(user)
                 .build();
 
