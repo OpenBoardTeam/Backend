@@ -1,10 +1,12 @@
 package com.oss.gitborad.controller;
 
 import com.oss.gitborad.data.dto.CategoryDTO;
+import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.CategoryService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,8 +58,13 @@ public class HashtagController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "해시태그 삭제")
-    public ResponseEntity<String> deleteHashtag (@PathVariable Long id){
-        categoryService.deleteCategory(id);
+    public ResponseEntity<String> deleteHashtag (
+            @AuthenticationPrincipal UserDTO.Info principal,
+            @PathVariable Long id){
+        if(principal == null)
+            return ResponseEntity.status(HttpStatus.OK).body("삭제 권한이 없습니다.");
+        Long userId = principal.getUser().getId();
+        categoryService.deleteCategory(id, userId);
 
         return ResponseEntity.status(HttpStatus.OK).body("정상적으로 삭제되었습니다.");
     }

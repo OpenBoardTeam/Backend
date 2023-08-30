@@ -16,6 +16,6 @@ public interface CategoryService {
 
     //category group
     void saveCategoryGroup(CategoryDTO.GroupRequest requestDTO);
-    void deleteCategoryGroup(Long id, Long userId);
+    void deleteCategoryGroup(Long id);
 
 }

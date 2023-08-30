@@ -65,10 +65,11 @@ public class CategoryController {
     public ResponseEntity<String> deleteCategoryGroup(
             @AuthenticationPrincipal UserDTO.Info principal,
             @PathVariable Long id){
+        // TODO: 삭제 예정. (일반 유저에게는 카테고리 그룹 삭제 권한이 없어야함.)
         if(principal == null) return ResponseEntity.status(HttpStatus.OK).body("인가되지 않은 작업입니다.");
         Long userId = principal.getUser().getId();
 
-        categoryService.deleteCategoryGroup(id, userId);
+        categoryService.deleteCategoryGroup(id);
 
         return ResponseEntity.status(HttpStatus.OK).body("정상적으로 삭제되었습니다.");
     }

@@ -88,11 +88,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long id, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("유저를 찾을 수 없습니다."));
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("카테고리를 찾을 수 없습니다."));
-//        if(category == null)
-//            throw new RuntimeException("삭제 권한이 없습니다. user: \"+userId");
-        // TODO: 카테고리를 만든 유저가 userId와 같은지 비교하는 로직
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("카테고리를 찾을 수 없습니다."));
+        if(!category.getWriter().getId().equals(userId))
+            throw new RuntimeException("삭제 권한이 없습니다. user: "+userId);
 
         categoryRepository.deleteById(id);
     }
@@ -108,7 +107,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategoryGroup(Long id, Long userId) {
+    public void deleteCategoryGroup(Long id) {
         categoryGroupRepository.deleteById(id);
     }
 }
