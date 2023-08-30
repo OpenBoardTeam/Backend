@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @Controller
@@ -29,8 +32,8 @@ public class BadgeController {
 
     @PostMapping
     @ApiOperation(value = "뱃지 생성")
-    public ResponseEntity<BadgeDTO.Info> save(@RequestBody BadgeDTO.Request requestDTO) {
-        BadgeDTO.Info saveDto = badgeService.save(requestDTO);
+    public ResponseEntity<BadgeDTO.Info> save(@ModelAttribute BadgeDTO.Request requestDTO, MultipartFile imageFile) throws IOException {
+        BadgeDTO.Info saveDto = badgeService.save(requestDTO, imageFile);
 
         return ResponseEntity.status(HttpStatus.OK).body(saveDto);
     }

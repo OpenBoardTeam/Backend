@@ -5,17 +5,21 @@ import com.oss.gitborad.data.dto.BadgeDTO;
 import com.oss.gitborad.data.repository.BadgeRepository;
 import com.oss.gitborad.service.BadgeService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 
 @Service
 @Transactional
 public class BadgeServiceImpl implements BadgeService {
 
     private final BadgeRepository badgeRepository;
+    private final S3Uploader s3Uploader;
 
-    public BadgeServiceImpl(BadgeRepository badgeRepository) {
+    public BadgeServiceImpl(BadgeRepository badgeRepository, S3Uploader s3Uploader) {
         this.badgeRepository = badgeRepository;
+        this.s3Uploader = s3Uploader;
     }
 
     @Override
@@ -27,10 +31,13 @@ public class BadgeServiceImpl implements BadgeService {
     }
 
     @Override
-    public BadgeDTO.Info save(BadgeDTO.Request requestDTO) {
-        Badge badge = new Badge(requestDTO);
+    public BadgeDTO.Info save(BadgeDTO.Request requestDTO, MultipartFile imageFile) throws IOException {
+        String imageUrl = s3Uploader.upload(imageFile);
+
+        Badge badge = new Badge(requestDTO, imageUrl);
 
         BadgeDTO.Info save = new BadgeDTO.Info(badgeRepository.save(badge));
+
 
         return save;
     }

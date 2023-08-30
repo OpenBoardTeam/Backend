@@ -3,6 +3,7 @@ package com.oss.gitborad.data.dto;
 import com.oss.gitborad.data.domain.Badge;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 public class BadgeDTO {
 
@@ -32,7 +33,6 @@ public class BadgeDTO {
     public static class Request {
         private String name;
         private String description;
-        private String imageUrl;
     }
 
 }
