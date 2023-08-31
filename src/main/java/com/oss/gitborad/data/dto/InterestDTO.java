@@ -30,7 +30,6 @@ public class InterestDTO {
     @ToString
     @ApiModel("InterestRequest")
     public static class Request {
-        private Long userId;
         private List<String> categories;
     }
 

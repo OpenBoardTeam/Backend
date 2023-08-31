@@ -11,11 +11,11 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @ToString
-@Table(name = "bookmarke")
+@Table(name = "bookmark")
 public class Bookmark extends Base{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bookmarke_id")
+    @Column(name = "bookmark_id")
     private Long id;
 
     @ManyToOne
@@ -31,4 +31,5 @@ public class Bookmark extends Base{
         this.user = user;
         this.project = project;
     }
+
 }

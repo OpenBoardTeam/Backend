@@ -24,7 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 내용: CSRF 토큰 방어를 해제함. 추후 해당 부분에 대한 보안 점검이 필요.
                  */
                 csrf().disable().
-                authorizeRequests().anyRequest().permitAll();
+                authorizeRequests().
+                antMatchers("/admin").hasAnyRole("ADMIN").
+                anyRequest().permitAll();
     }
 
     @Override

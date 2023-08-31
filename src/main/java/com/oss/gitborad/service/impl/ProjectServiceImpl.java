@@ -5,6 +5,7 @@ import com.oss.gitborad.data.domain.Project;
 import com.oss.gitborad.data.domain.ProjectCategory;
 import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.dto.ProjectDTO;
+import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.data.model.GitHubRepositoryModel;
 import com.oss.gitborad.repository.CategoryRepository;
 import com.oss.gitborad.repository.ProjectCategoryRepository;
@@ -13,10 +14,16 @@ import com.oss.gitborad.repository.UserRepository;
 import com.oss.gitborad.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -39,6 +46,21 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectDTO.Info findOne(Long id) {
         ProjectDTO.Info findOneDto = new ProjectDTO.Info(projectRepository.getById(id));
         return findOneDto;
+    }
+
+    @Override
+    public List<ProjectDTO.Info> findListByUser(Long id) {
+        User user = userRepository.getById(id);
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(0, projectRepository.countByUser(user), sort);
+        Page<ProjectDTO.Info> response = projectRepository.findByUser(user, pageable).map(ProjectDTO.Info::new);
+
+        List<ProjectDTO.Info> pageRequestDTO = new ArrayList<>();
+        for (ProjectDTO.Info i : response){
+            pageRequestDTO.add(i);
+        }
+        return pageRequestDTO;
     }
 
     @Override
@@ -107,8 +129,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void delete(Long id) {
-        projectRepository.deleteById(id);
+    public void delete(Long id, UserDTO.Info principal) {
+        Project project = projectRepository.findById(id).orElse(null);
+        if(project == null) return;
+        Long projectId = project.getUser().getId();
+        Long userId = principal.getUser().getId();
+        if(projectId.equals(userId)) {
+            projectRepository.deleteById(id);
+        }
     }
 
     private String getRepositoryUri(String url) {

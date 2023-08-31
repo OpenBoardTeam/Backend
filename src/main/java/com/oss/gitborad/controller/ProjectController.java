@@ -1,12 +1,17 @@
 package com.oss.gitborad.controller;
 
+import com.oss.gitborad.data.dto.CategoryDTO;
 import com.oss.gitborad.data.dto.ProjectDTO;
+import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Controller
@@ -24,6 +29,14 @@ public class ProjectController {
         ProjectDTO.Info findOneDto = projectService.findOne(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(findOneDto);
+    }
+
+    @GetMapping("/list/{userId}")
+    @ApiOperation(value = "내가 작성한 프로젝트 글 조회")
+    public ResponseEntity<List<ProjectDTO.Info>> findListByUser(@PathVariable Long userId) {
+        List<ProjectDTO.Info> findList = projectService.findListByUser(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(findList);
     }
 
     @PostMapping
@@ -46,8 +59,11 @@ public class ProjectController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "프로젝트 삭제")
-    public ResponseEntity<String> delete(@PathVariable Long id){
-        projectService.delete(id);
+    public ResponseEntity<String> delete(
+            @AuthenticationPrincipal UserDTO.Info principal,
+            @PathVariable Long id
+    ){
+        projectService.delete(id, principal);
 
         return ResponseEntity.status(HttpStatus.OK).body("정상적으로 제거되었습니다.");
     }
