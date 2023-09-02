@@ -1,6 +1,8 @@
 package com.oss.gitborad.controller;
 
 import com.oss.gitborad.data.dto.BookmarkDTO;
+import com.oss.gitborad.data.dto.ResponseCode;
+import com.oss.gitborad.data.dto.ResponseDTO;
 import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.BookmarkService;
 import io.swagger.annotations.ApiOperation;
@@ -24,33 +26,33 @@ public class BookmarkController {
 
     @GetMapping("/list/{userId}")
     @ApiOperation(value = "북마크 리스트 조회", notes = "사용자 id로 북마크 리스트 조회")
-    public ResponseEntity<List<BookmarkDTO.InfoForList>> findListByUser(@PathVariable Long userId) {
+    public ResponseEntity<ResponseDTO<List<BookmarkDTO.InfoForList>>> findListByUser(@PathVariable Long userId) {
         List<BookmarkDTO.InfoForList> findList = bookmarkService.findListByUser(userId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(findList);
+        return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findList));
     }
 
     @PostMapping
     @ApiOperation(value = "북마크 생성")
-    public ResponseEntity<BookmarkDTO.Info> save(@RequestBody BookmarkDTO.Request requestDTO){
+    public ResponseEntity<ResponseDTO<BookmarkDTO.Info>> save(@RequestBody BookmarkDTO.Request requestDTO){
         BookmarkDTO.Info saveDTO = bookmarkService.save(requestDTO);
 
-        return ResponseEntity.status(HttpStatus.OK).body(saveDTO);
+        return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, saveDTO));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "북마크 취소")
-    public ResponseEntity<String> delete(
+    public ResponseEntity<ResponseDTO<Object>> delete(
             @AuthenticationPrincipal UserDTO.Info principal,
             @PathVariable Long id
     ){
         if(principal == null)
-            return ResponseEntity.status(HttpStatus.OK).body("삭제 권한이 없습니다. 로그인을 해주세요.");
+            return ResponseEntity.ok(ResponseDTO.ofUnauthorized("삭제 권한이 없습니다. 로그인을 해주세요."));
 
         Long userId = principal.getUser().getId(); // Extract user_id
         bookmarkService.delete(id, userId);
 
-        return ResponseEntity.status(HttpStatus.OK).body("정상적으로 삭제되었습니다.");
+        return ResponseEntity.ok(ResponseDTO.ofSuccess());
     }
 
 }
