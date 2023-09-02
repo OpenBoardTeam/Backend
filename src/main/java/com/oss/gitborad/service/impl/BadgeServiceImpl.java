@@ -15,11 +15,11 @@ import java.io.IOException;
 public class BadgeServiceImpl implements BadgeService {
 
     private final BadgeRepository badgeRepository;
-//    private final S3Uploader s3Uploader;
+    private final S3Uploader s3Uploader;
 
-    public BadgeServiceImpl(BadgeRepository badgeRepository) {
+    public BadgeServiceImpl(BadgeRepository badgeRepository, S3Uploader s3Uploader) {
         this.badgeRepository = badgeRepository;
-//        this.s3Uploader = s3Uploader;
+        this.s3Uploader = s3Uploader;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class BadgeServiceImpl implements BadgeService {
 
     @Override
     public BadgeDTO.Info save(BadgeDTO.Request requestDTO, MultipartFile imageFile) throws IOException {
-        String imageUrl = "";//s3Uploader.upload(imageFile);
+        String imageUrl = s3Uploader.upload(imageFile);
 
         Badge badge = new Badge(requestDTO, imageUrl);
 
