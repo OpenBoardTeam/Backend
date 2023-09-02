@@ -1,5 +1,6 @@
 package com.oss.gitborad.controller;
 
+import com.oss.gitborad.data.dto.ResponseDTO;
 import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -29,10 +30,10 @@ public class UserController {
 
     @PostMapping("/badge")
     @ApiOperation(value = "뱃지 부여", notes = "사용자에게 뱃지를 부여")
-    public ResponseEntity<String> save(@RequestBody UserDTO.BadgeRequest requestDTO) {
+    public ResponseEntity<ResponseDTO<Object>> save(@RequestBody UserDTO.BadgeRequest requestDTO) {
         userService.saveForBadge(requestDTO);
 
-        return ResponseEntity.status(HttpStatus.OK).body("정상적으로 부여되었습니다.");
+        return ResponseEntity.ok(ResponseDTO.ofSuccess());
     }
 
 }

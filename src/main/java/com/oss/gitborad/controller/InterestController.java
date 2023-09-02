@@ -1,6 +1,8 @@
 package com.oss.gitborad.controller;
 
 import com.oss.gitborad.data.dto.InterestDTO;
+import com.oss.gitborad.data.dto.ResponseCode;
+import com.oss.gitborad.data.dto.ResponseDTO;
 import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.InterestService;
 import io.swagger.annotations.ApiOperation;
@@ -24,15 +26,15 @@ public class InterestController {
 
     @GetMapping("/list/{userId}")
     @ApiOperation(value = "관심사 리스트 조회", notes = "사용자 id로 관심사 리스트 조회")
-    public ResponseEntity<List<InterestDTO.Info>> findListByUser(@PathVariable Long userId) {
+    public ResponseEntity<ResponseDTO<List<InterestDTO.Info>>> findListByUser(@PathVariable Long userId) {
         List<InterestDTO.Info> findList = interestService.findListByUser(userId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(findList);
+        return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findList));
     }
 
     @PostMapping
     @ApiOperation(value = "관심사 등록")
-    public ResponseEntity<List<InterestDTO.Info>> save(
+    public ResponseEntity<ResponseDTO<List<InterestDTO.Info>>> save(
             @AuthenticationPrincipal UserDTO.Info principal,
             @RequestBody InterestDTO.Request requestDTO
     ){
@@ -40,15 +42,14 @@ public class InterestController {
         interestService.save(requestDTO, principal);
         List<InterestDTO.Info> saveList = interestService.findListByUser(principal.getUser().getId());
 
-        return ResponseEntity.status(HttpStatus.OK).body(saveList);
+        return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, saveList));
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "북마크 취소")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<ResponseDTO<Object>> delete(@PathVariable Long id){
         interestService.delete(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body("정상적으로 삭제되었습니다.");
+        return ResponseEntity.ok(ResponseDTO.ofSuccess());
     }
-
 }
