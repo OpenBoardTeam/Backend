@@ -39,9 +39,11 @@ public class User extends Base{
     @Column(columnDefinition = "varchar(45)", nullable = false)
     private String role = "USER";
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "badge", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<UserBadge> badgeList = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Interest> interestList = new ArrayList<>();
 
