@@ -1,5 +1,6 @@
 package com.oss.gitborad.data.dto;
 
+import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
  * @author Yoonki Hong
  * @param <T>
  */
+@Getter
 public class ResponseDTO<T> {
     private String resultCode;
     private String message;
@@ -44,7 +46,10 @@ public class ResponseDTO<T> {
      * @param <T>
      */
     public static <T> ResponseDTO<T> ofSuccess() {
-        return new ResponseDTO<>(ResponseCode.SUCCESS, null, null);
+        return ofSuccess(null);
+    }
+    public static <T> ResponseDTO<T> ofSuccess(String message) {
+        return new ResponseDTO<>(ResponseCode.SUCCESS, message, null);
     }
 
     /**
@@ -53,6 +58,21 @@ public class ResponseDTO<T> {
      * @param <T>
      */
     public static <T> ResponseDTO<T> ofFailure() {
-        return new ResponseDTO<>(ResponseCode.FAILURE, null, null);
+        return ofFailure(null);
+    }
+    public static <T> ResponseDTO<T> ofFailure(String message) {
+        return new ResponseDTO<>(ResponseCode.FAILURE, message, null);
+    }
+
+    /**
+     * A shortcut for create a {@code ResponseDTO} with only Unauthorized
+     * @return ResponseDTO&lt;T&gt;
+     * @param <T>
+     */
+    public static <T> ResponseDTO<T> ofUnauthorized() {
+        return ofUnauthorized(null);
+    }
+    public static <T> ResponseDTO<T> ofUnauthorized(String message) {
+        return new ResponseDTO<>(ResponseCode.UNAUTHORIZED, message, null);
     }
 }

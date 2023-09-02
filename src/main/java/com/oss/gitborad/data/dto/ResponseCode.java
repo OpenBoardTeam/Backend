@@ -7,4 +7,5 @@ package com.oss.gitborad.data.dto;
 public class ResponseCode {
     public static final String SUCCESS = "SUCCESS";
     public static final String FAILURE = "FAILURE";
+    public static final String UNAUTHORIZED = "UNAUTHORIZED";
 }
