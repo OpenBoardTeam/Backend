@@ -1,5 +1,6 @@
 package com.oss.gitborad.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,9 +14,12 @@ import org.springframework.security.web.firewall.HttpFirewall;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${REDIRECT_URI}")
+    private String redirect_uri;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.oauth2Login();
+        http.oauth2Login().defaultSuccessUrl(redirect_uri);
         http.
                 /*
                 TODO: 검토 필요
