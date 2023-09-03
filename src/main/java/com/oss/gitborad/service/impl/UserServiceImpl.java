@@ -15,9 +15,12 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Slf4j
 @Service
+@Transactional
 public class UserServiceImpl extends DefaultOAuth2UserService implements UserService {
 
     final private UserRepository userRepository;
@@ -34,20 +37,32 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println("OAuth user : " + oAuth2User);
+
+        if(oAuth2User.getAttributes().get("email") == null) {
+            WebClient webClient = WebClient.create("https://api.github.com");
+            String string = webClient.get()
+                    .uri("/user/emails")
+                    .headers(h -> h.setBearerAuth(userRequest.getAccessToken().getTokenValue()))
+                    .retrieve()
+                    .bodyToMono(String.class).block();
+            assert string != null;
+
+            int startIndex = string.indexOf(":")+2;
+            int endIndex = string.substring(startIndex).indexOf("\"")+startIndex;
+            String githubEmail = string.substring(startIndex, endIndex);
+            oAuth2User.getAttributes().put("email", githubEmail);
+        }
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        System.out.println("유저: " + registrationId + ", " + userNameAttributeName);
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         if(attributes == null) return null;
 
-
         User user = attributes.saveUser();
-        String email = attributes.getEmail();
-        User byEmail = userRepository.findByEmail(email).orElse(null);
+        String url = attributes.getUrl();
+        User byEmail = userRepository.findByGitUrl(url).orElse(null);
         // repository save user
 
         if(byEmail == null) {
@@ -64,9 +79,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     public UserDTO.InfoForAll findOne(Long id) {
         User user = userRepository.getById(id);
 
-        UserDTO.InfoForAll findDTO = new UserDTO.InfoForAll(user);
-
-        return findDTO;
+        return new UserDTO.InfoForAll(user);
     }
 
     @Override
