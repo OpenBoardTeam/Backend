@@ -36,26 +36,29 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        WebClient webClient = WebClient.create("https://api.github.com");
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println("OAuth user : " + oAuth2User);
 
-        String string = webClient.get().uri("/user/emails").headers(h -> h.setBearerAuth(userRequest.getAccessToken().getTokenValue())).retrieve()
-                .bodyToMono(String.class).block();
-        assert string != null;
+        if(oAuth2User.getAttributes().get("email") == null) {
+            WebClient webClient = WebClient.create("https://api.github.com");
+            String string = webClient.get()
+                    .uri("/user/emails")
+                    .headers(h -> h.setBearerAuth(userRequest.getAccessToken().getTokenValue()))
+                    .retrieve()
+                    .bodyToMono(String.class).block();
+            assert string != null;
 
-        int startIndex = string.indexOf(":")+2;
-        int endIndex = string.substring(startIndex).indexOf("\"")+startIndex;
-        String githubEmail = string.substring(startIndex, endIndex);
+            int startIndex = string.indexOf(":")+2;
+            int endIndex = string.substring(startIndex).indexOf("\"")+startIndex;
+            String githubEmail = string.substring(startIndex, endIndex);
+            oAuth2User.getAttributes().put("email", githubEmail);
+        }
 
         String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-        System.out.println("유저: " + registrationId + ", " + userNameAttributeName);
-        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes(), githubEmail);
+        OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         if(attributes == null) return null;
-
 
         User user = attributes.saveUser();
         String url = attributes.getUrl();
@@ -76,9 +79,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     public UserDTO.InfoForAll findOne(Long id) {
         User user = userRepository.getById(id);
 
-        UserDTO.InfoForAll findDTO = new UserDTO.InfoForAll(user);
-
-        return findDTO;
+        return new UserDTO.InfoForAll(user);
     }
 
     @Override

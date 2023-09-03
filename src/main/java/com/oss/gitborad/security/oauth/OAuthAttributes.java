@@ -24,26 +24,11 @@ public class OAuthAttributes {
             return ofGithub(userNameAttributeName, attributes);
         return null;
     }
-    public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes, String email) {
-        System.out.println("User Attributes : " + attributes);
-        if(registrationId.equals("github"))
-            return ofGithub(userNameAttributeName, attributes, email);
-        return null;
-    }
 
     public static OAuthAttributes ofGithub(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .name(attributes.get("name").toString())
                 .email(attributes.get("email").toString())
-                .url(attributes.get("url").toString())
-                .avatar_url(attributes.get("avatar_url").toString())
-                .nameAttributeKey(userNameAttributeName)
-                .build();
-    }
-    public static OAuthAttributes ofGithub(String userNameAttributeName, Map<String, Object> attributes, String email) {
-        return OAuthAttributes.builder()
-                .name(attributes.get("name").toString())
-                .email(email)
                 .url(attributes.get("url").toString())
                 .avatar_url(attributes.get("avatar_url").toString())
                 .nameAttributeKey(userNameAttributeName)
