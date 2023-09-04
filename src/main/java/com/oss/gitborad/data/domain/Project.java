@@ -40,7 +40,7 @@ public class Project extends Base{
     private User user;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<ProjectCategory> categoryList = new ArrayList<>();
+    private List<ProjectHashtag> hashtagList = new ArrayList<>();
 
     @Builder
     public Project(String name, String description, String simple_description, String gitUrl, String type, String ownerUrl, User user){

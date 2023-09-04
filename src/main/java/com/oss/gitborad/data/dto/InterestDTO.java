@@ -14,12 +14,12 @@ public class InterestDTO {
     public static class Info {
         private Long id;
         private String user;
-        private String Category;
+        private String hashtag;
 
         public Info(Interest interest){
             this.id = interest.getId();
             this.user = interest.getUser().getName();
-            this.Category = interest.getCategory().getName();
+            this.hashtag = interest.getHashtag().getName();
         }
     }
 
@@ -30,7 +30,7 @@ public class InterestDTO {
     @ToString
     @ApiModel("InterestRequest")
     public static class Request {
-        private List<String> categories;
+        private List<String> hashtagList;
     }
 
 }

@@ -8,7 +8,6 @@ import lombok.*;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 public class ProjectDTO {
@@ -23,31 +22,24 @@ public class ProjectDTO {
         private String simple_description;
         private String gitUrl;
         private String userName;
-        private List<String> categories;
-        private List<String> framework;
-        private List<String> language;
+        private List<String> Group;
+        private List<String> Social;
+        private List<String> Language;
+        private List<String> Framework;
+        private List<String> Infra;
         private LocalDateTime createdAt;
         private LocalDateTime updateAT;
 
         public Info(Project project){
+
             this.id = project.getId();
             this.name = project.getName();
             this.description = project.getDescription();
             this.simple_description = project.getSimple_description();
             this.gitUrl = project.getGitUrl();
             this.userName = project.getUser().getName();
-            this.categories = project.getCategoryList().stream()
-                    .filter(x -> x.getCategory().getGroup().getName().equals("categories"))
-                    .map(x -> x.getCategory().getName())
-                    .collect(Collectors.toList());
-            this.framework = project.getCategoryList().stream()
-                    .filter(x -> x.getCategory().getGroup().getName().equals("framework"))
-                    .map(x -> x.getCategory().getName())
-                    .collect(Collectors.toList());
-            this.language = project.getCategoryList().stream()
-                    .filter(x -> x.getCategory().getGroup().getName().equals("language"))
-                    .map(x -> x.getCategory().getName())
-                    .collect(Collectors.toList());
+            //TODO: 해시태그 리스트 출력 반복문으로 간소화
+
             this.createdAt = project.getCreatedAt();
             this.updateAT = project.getUpdatedAt();
         }
@@ -65,7 +57,7 @@ public class ProjectDTO {
         private String simple_description;
         private String gitUrl;
         private Long userId;
-        private List<String> categories;
+        private List<String> hashtagList;
     }
 
     @Data
@@ -88,10 +80,10 @@ public class ProjectDTO {
     @AllArgsConstructor
     @Builder
     @ToString
-    @ApiModel("ProjectCategoryRequest")
-    public static class CategoryRequest {
+    @ApiModel("ProjectHashtagRequest")
+    public static class HashtagRequest {
         private Long projectId;
-        private Long categoryId;
+        private Long hashtagId;
     }
 
 

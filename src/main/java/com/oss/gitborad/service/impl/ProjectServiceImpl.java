@@ -1,14 +1,14 @@
 package com.oss.gitborad.service.impl;
 
-import com.oss.gitborad.data.domain.Category;
+import com.oss.gitborad.data.domain.Hashtag;
 import com.oss.gitborad.data.domain.Project;
-import com.oss.gitborad.data.domain.ProjectCategory;
+import com.oss.gitborad.data.domain.ProjectHashtag;
 import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.dto.ProjectDTO;
 import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.data.model.GitHubRepositoryModel;
-import com.oss.gitborad.repository.CategoryRepository;
-import com.oss.gitborad.repository.ProjectCategoryRepository;
+import com.oss.gitborad.repository.HashtagRepository;
+import com.oss.gitborad.repository.ProjectHashtagRepository;
 import com.oss.gitborad.repository.ProjectRepository;
 import com.oss.gitborad.repository.UserRepository;
 import com.oss.gitborad.service.ProjectService;
@@ -32,14 +32,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
-    private final CategoryRepository categoryRepository;
-    private final ProjectCategoryRepository projectCategoryRepository;
+    private final HashtagRepository hashtagRepository;
+    private final ProjectHashtagRepository projectHashtagRepository;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, CategoryRepository categoryRepository, ProjectCategoryRepository projectCategoryRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, HashtagRepository hashtagRepository, ProjectHashtagRepository projectHashtagRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
-        this.categoryRepository = categoryRepository;
-        this.projectCategoryRepository = projectCategoryRepository;
+        this.hashtagRepository = hashtagRepository;
+        this.projectHashtagRepository = projectHashtagRepository;
     }
 
     @Override
@@ -76,15 +76,15 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectRepository.save(project);
 
-        for(String i : requestDTO.getCategories()){
-            Category category = categoryRepository.findByName(i);
+        for(String i : requestDTO.getHashtagList()){
+            Hashtag hashtag = hashtagRepository.findByName(i);
 
-            ProjectCategory projectCategory = ProjectCategory.builder()
+            ProjectHashtag projectHashtag = ProjectHashtag.builder()
                     .project(project)
-                    .category(category)
+                    .hashtag(hashtag)
                     .build();
 
-            projectCategoryRepository.save(projectCategory);
+            projectHashtagRepository.save(projectHashtag);
 
         }
 

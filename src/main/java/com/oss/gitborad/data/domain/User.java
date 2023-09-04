@@ -44,7 +44,7 @@ public class User extends Base{
     private List<UserBadge> badgeList = new ArrayList<>();
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hashtag", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Interest> interestList = new ArrayList<>();
 
 

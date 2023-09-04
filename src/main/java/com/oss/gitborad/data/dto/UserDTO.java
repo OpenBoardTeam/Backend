@@ -65,7 +65,7 @@ public class UserDTO {
                     .map(x -> x.getBadge().getName())
                     .collect(Collectors.toList());
             this.interestList = user.getInterestList().stream()
-                    .map(x -> x.getCategory().getName())
+                    .map(x -> x.getHashtag().getName())
                     .collect(Collectors.toList());
 
         }

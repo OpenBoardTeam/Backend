@@ -1,11 +1,11 @@
 package com.oss.gitborad.service.impl;
 
-import com.oss.gitborad.data.domain.Category;
+import com.oss.gitborad.data.domain.Hashtag;
 import com.oss.gitborad.data.domain.Interest;
 import com.oss.gitborad.data.domain.User;
 import com.oss.gitborad.data.dto.InterestDTO;
 import com.oss.gitborad.data.dto.UserDTO;
-import com.oss.gitborad.repository.CategoryRepository;
+import com.oss.gitborad.repository.HashtagRepository;
 import com.oss.gitborad.repository.InterestRepository;
 import com.oss.gitborad.repository.UserRepository;
 import com.oss.gitborad.service.InterestService;
@@ -25,12 +25,12 @@ public class InterestServiceImpl implements InterestService {
 
     private final InterestRepository interestRepository;
     private final UserRepository userRepository;
-    private final CategoryRepository categoryRepository;
+    private final HashtagRepository hashtagRepository;
 
-    public InterestServiceImpl(InterestRepository interestRepository, UserRepository userRepository, CategoryRepository categoryRepository) {
+    public InterestServiceImpl(InterestRepository interestRepository, UserRepository userRepository, HashtagRepository hashtagRepository) {
         this.interestRepository = interestRepository;
         this.userRepository = userRepository;
-        this.categoryRepository = categoryRepository;
+        this.hashtagRepository = hashtagRepository;
     }
 
     @Override
@@ -54,13 +54,13 @@ public class InterestServiceImpl implements InterestService {
     public void save(InterestDTO.Request requestDTO, UserDTO.Info principal) {
         User user = userRepository.getById(principal.getUser().getId());
 
-        for(String i : requestDTO.getCategories()){
+        for(String i : requestDTO.getHashtagList()){
             //TODO: 카테고리가 존재하지 않을 경우 예외처리 필요
-            Category category = categoryRepository.findByName(i);
+            Hashtag hashtag = hashtagRepository.findByName(i);
 
             Interest interest = Interest.builder()
                     .user(user)
-                    .category(category)
+                    .hashtag(hashtag)
                     .build();
 
             interestRepository.save(interest);

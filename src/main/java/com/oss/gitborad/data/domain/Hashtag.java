@@ -8,27 +8,31 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @ToString
-@Table(name = "category")
-public class Category extends Base{
+@Table(name = "hashtag")
+public class Hashtag extends Base{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
+    @Column(name = "hashtag_id")
     private Long id;
 
     @Column(length = 20)
     private String name;
+
+    @Column
+    private boolean certified;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User writer;
 
     @ManyToOne
-    @JoinColumn(name="category_group_id")
-    private CategoryGroup group;
+    @JoinColumn(name="hashtag_group_id")
+    private HashtagGroup group;
 
     @Builder
-    public Category(String name, User writer, CategoryGroup group){
+    public Hashtag(String name, boolean certified, User writer, HashtagGroup group){
         this.name = name;
+        this.certified = certified;
         this.writer = writer;
         this.group = group;
     }

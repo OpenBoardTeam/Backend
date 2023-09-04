@@ -23,12 +23,12 @@ public class Interest extends Base{
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @JoinColumn(name = "hashtag_id")
+    private Hashtag hashtag;
 
     @Builder
-    public Interest(User user, Category category){
+    public Interest(User user, Hashtag hashtag){
         this.user = user;
-        this.category = category;
+        this.hashtag = hashtag;
     }
 }
