@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @Controller
-@RequestMapping("/project")
+@RequestMapping("/projects")
 public class ProjectController {
     private final ProjectService projectService;
 
@@ -29,7 +29,7 @@ public class ProjectController {
         return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findOneDto));
     }
 
-    @GetMapping("/list/{userId}")
+    @GetMapping("/user/{userId}")
     @ApiOperation(value = "내가 작성한 프로젝트 글 조회")
     public ResponseEntity<ResponseDTO<List<ProjectDTO.Info>>> findListByUser(@PathVariable Long userId) {
         List<ProjectDTO.Info> findList = projectService.findListByUser(userId);
@@ -45,7 +45,7 @@ public class ProjectController {
         return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, saveDto));
     }
 
-    @GetMapping("/repo")
+    @GetMapping("/repo-url")
     @ApiOperation(value = "Get basic info with url")
     public ResponseEntity<ResponseDTO<ProjectDTO.ResponseBasicInfo>> getBasicInfo(
             @RequestParam String encodedUrl

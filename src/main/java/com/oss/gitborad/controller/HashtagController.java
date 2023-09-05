@@ -8,14 +8,12 @@ import com.oss.gitborad.service.HashtagService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@Controller
-@RequestMapping("/hashtag")
+@RequestMapping("/hashtags")
 public class HashtagController {
     //TODO: 카테고리 -> 해시태그 코드 내 이름 변경 예정
     private final HashtagService hashtagService;
@@ -24,25 +22,25 @@ public class HashtagController {
         this.hashtagService = hashtagService;
     }
 
-    // Category
-    @GetMapping("/list/{writerId}")
+    @GetMapping("/user/{writer-id}")
     @ApiOperation(value = "해시태그 작성자 별 목록 조회", notes = "작성자(User) id로 세부 해시태그 조회")
-    public ResponseEntity<ResponseDTO<List<HashtagDTO.Info>>> findListByWriter(@PathVariable Long writerId) {
+    public ResponseEntity<ResponseDTO<List<HashtagDTO.Info>>> findListByWriter(@PathVariable("writer-id") Long writerId) {
         List<HashtagDTO.Info> findList = hashtagService.findListByWriter(writerId);
 
         return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findList));
     }
 
-    @GetMapping("/list/all/{pageNumber}/{size}")
+    //TODO: page 정보 파라메터로 받기
+    @GetMapping("/page-number/{page-number}/size/{size}")
     @ApiOperation(value = "해시태그 목록 조회", notes = "pageNumber = 페이지 번호이며 0부터 시작함."+"\n"+"size = 한 페이지에 노출될 데이터 개수")
-    public ResponseEntity<ResponseDTO<List<HashtagDTO.Info>>> findAll(@PathVariable int pageNumber, @PathVariable int size) {
+    public ResponseEntity<ResponseDTO<List<HashtagDTO.Info>>> findAll(@PathVariable("page-number") int pageNumber, @PathVariable int size) {
         List<HashtagDTO.Info> findList = hashtagService.findAll(pageNumber, size);
 
         return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findList));
     }
 
-    @GetMapping("/list/by-certified/{groupId}")
-    @ApiOperation(value = "그룹 별 해시태그 조회", notes = "인증 여부에 따라 배열로 분류되어 있음.")
+    @GetMapping("/group/{group-id}")
+    @ApiOperation(value = "그룹 별 해시태그 조회")
     public ResponseEntity<HashtagDTO.GroupListInfo> findHashtagByCertified(@PathVariable long groupId) {
         HashtagDTO.GroupListInfo findList = hashtagService.findHashtagByCertified(groupId);
 

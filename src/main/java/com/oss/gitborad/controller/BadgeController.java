@@ -18,7 +18,6 @@ import java.io.IOException;
 public class BadgeController {
     private final BadgeService badgeService;
 
-
     public BadgeController(BadgeService badgeService) {
         this.badgeService = badgeService;
     }
@@ -29,7 +28,6 @@ public class BadgeController {
         BadgeDTO.Info findOneDto = badgeService.findOne(id);
         return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findOneDto));
     }
-
 
     @PostMapping
     @ApiOperation(value = "뱃지 생성")
