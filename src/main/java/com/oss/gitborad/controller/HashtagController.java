@@ -22,7 +22,7 @@ public class HashtagController {
         this.hashtagService = hashtagService;
     }
 
-    @GetMapping("/user/{writer-id}")
+    @GetMapping("/user/{writer-id}") // TODO: Change to `../user/:username`
     @ApiOperation(value = "해시태그 작성자 별 목록 조회", notes = "작성자(User) id로 세부 해시태그 조회")
     public ResponseEntity<ResponseDTO<List<HashtagDTO.Info>>> findListByWriter(@PathVariable("writer-id") Long writerId) {
         List<HashtagDTO.Info> findList = hashtagService.findListByWriter(writerId);
@@ -39,9 +39,9 @@ public class HashtagController {
         return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findList));
     }
 
-    @GetMapping("/group/{group-id}")
+    @GetMapping("/group/{group-id}") // TODO: Change to `../group/:group-name
     @ApiOperation(value = "그룹 별 해시태그 조회")
-    public ResponseEntity<HashtagDTO.GroupListInfo> findHashtagByCertified(@PathVariable long groupId) {
+    public ResponseEntity<HashtagDTO.GroupListInfo> findHashtagByCertified(@PathVariable("group-id") long groupId) {
         HashtagDTO.GroupListInfo findList = hashtagService.findHashtagByCertified(groupId);
 
         return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findList).getData());
@@ -55,7 +55,7 @@ public class HashtagController {
         return ResponseEntity.ok(ResponseDTO.ofSuccess());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}") // TODO: Hashtag cannot be deleted
     @ApiOperation(value = "해시태그 삭제")
     public ResponseEntity<ResponseDTO<Object>> deleteHashtag (
             @AuthenticationPrincipal UserDTO.Info principal,

@@ -35,7 +35,7 @@ public class UserController {
         return ResponseEntity.ok(ResponseDTO.ofSuccess());
     }
 
-    @GetMapping("/profile/{username}")
+    @GetMapping("/profile/{username}") // TODO: Change to `/users/:username`
     @ApiOperation(value = "사용자 조회")
     public ResponseEntity<ResponseDTO<UserDTO.InfoForAll>> findOne(@PathVariable String username) {
         UserDTO.InfoForAll findOneDto = userService.findOne(username);

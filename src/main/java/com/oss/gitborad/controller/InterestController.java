@@ -23,7 +23,7 @@ public class InterestController {
         this.interestService = interestService;
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{userId}") // TODO: Move to `/users/:username/interests`
     @ApiOperation(value = "관심사 리스트 조회", notes = "사용자 id로 관심사 리스트 조회")
     public ResponseEntity<ResponseDTO<List<InterestDTO.Info>>> findListByUser(@PathVariable Long userId) {
         List<InterestDTO.Info> findList = interestService.findListByUser(userId);

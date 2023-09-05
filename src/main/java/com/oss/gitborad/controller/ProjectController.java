@@ -29,7 +29,7 @@ public class ProjectController {
         return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findOneDto));
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{userId}") // TODO: Move to `/users/:username/repos`
     @ApiOperation(value = "내가 작성한 프로젝트 글 조회")
     public ResponseEntity<ResponseDTO<List<ProjectDTO.Info>>> findListByUser(@PathVariable Long userId) {
         List<ProjectDTO.Info> findList = projectService.findListByUser(userId);

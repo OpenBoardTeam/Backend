@@ -23,7 +23,7 @@ public class BookmarkController {
         this.bookmarkService = bookmarkService;
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{userId}") // TODO: Move to `/users/:username/bookmarks`
     @ApiOperation(value = "북마크 리스트 조회", notes = "사용자 id로 북마크 리스트 조회")
     public ResponseEntity<ResponseDTO<List<BookmarkDTO.InfoForList>>> findListByUser(@PathVariable Long userId) {
         List<BookmarkDTO.InfoForList> findList = bookmarkService.findListByUser(userId);
@@ -32,7 +32,7 @@ public class BookmarkController {
     }
 
     @PostMapping
-    @ApiOperation(value = "북마크 생성")
+    @ApiOperation(value = "북마크 생성") // TODO: Get user info by `@AuthenticationPrincipal`
     public ResponseEntity<ResponseDTO<BookmarkDTO.Info>> save(@RequestBody BookmarkDTO.Request requestDTO){
         BookmarkDTO.Info saveDTO = bookmarkService.save(requestDTO);
 
