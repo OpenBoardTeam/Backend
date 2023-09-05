@@ -21,6 +21,9 @@ public class User extends Base{
     @Column(length = 45)
     private String email;
 
+    @Column
+    private String username;
+
     @Column(length = 45)
     private String name;
 
@@ -51,12 +54,14 @@ public class User extends Base{
     static public User oauth2Register(
             String name,
             String email,
+            String username,
             String url,
             String avatar_url
     ) {
         User user = new User();
         user.name = name;
         user.email = email;
+        user.username = username;
         user.gitUrl = url;
         user.imageUrl = avatar_url;
         return user;

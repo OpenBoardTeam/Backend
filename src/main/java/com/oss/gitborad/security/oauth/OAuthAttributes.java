@@ -14,6 +14,7 @@ public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String name;
+    private String username;
     private String email;
     private String url;
     private String avatar_url;
@@ -29,6 +30,7 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name(attributes.get("name").toString())
                 .email(attributes.get("email").toString())
+                .username(attributes.get("login").toString())
                 .url(attributes.get("url").toString())
                 .avatar_url(attributes.get("avatar_url").toString())
                 .nameAttributeKey(userNameAttributeName)
@@ -39,6 +41,7 @@ public class OAuthAttributes {
         return User.oauth2Register(
                 name,
                 email,
+                username,
                 url,
                 avatar_url
         );
