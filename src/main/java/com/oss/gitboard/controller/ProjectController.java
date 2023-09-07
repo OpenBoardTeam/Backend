@@ -1,7 +1,7 @@
-package com.oss.gitborad.controller;
+package com.oss.gitboard.controller;
 
-import com.oss.gitborad.data.dto.*;
-import com.oss.gitborad.service.ProjectService;
+import com.oss.gitboard.data.dto.*;
+import com.oss.gitboard.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,13 +37,24 @@ public class ProjectController {
     }
 
     @GetMapping("/search/keyword/{keyword}/page-number/{number}/size/{size}")
-    @ApiOperation(value = "제목 및 내용 검색")
+    @ApiOperation(value = "키워드가 포함된 게시글 검색", notes = "검색 범위: 제목, 내용")
     public ResponseEntity<ResponseDTO<List<ProjectDTO.CardInfo>>> findListBySearch(
             @PathVariable String keyword,
             @PathVariable int number,
             @PathVariable int size
     ) {
         List<ProjectDTO.CardInfo> findList = projectService.findListBySearch(number, size, keyword);
+
+        return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findList));
+    }
+
+    @GetMapping("/page-number/{page-number}/size/{size}")
+    @ApiOperation(value = "모든 게시글 조회")
+    public ResponseEntity<ResponseDTO<List<ProjectDTO.CardInfo>>> findListBySearch(
+            @PathVariable("page-number") int number,
+            @PathVariable int size
+    ) {
+        List<ProjectDTO.CardInfo> findList = projectService.findAll(number, size);
 
         return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findList));
     }

@@ -1,17 +1,17 @@
-package com.oss.gitborad.service.impl;
+package com.oss.gitboard.service.impl;
 
-import com.oss.gitborad.data.domain.Hashtag;
-import com.oss.gitborad.data.domain.Project;
-import com.oss.gitborad.data.domain.ProjectHashtag;
-import com.oss.gitborad.data.domain.User;
-import com.oss.gitborad.data.dto.ProjectDTO;
-import com.oss.gitborad.data.dto.UserDTO;
-import com.oss.gitborad.data.model.GitHubRepositoryModel;
-import com.oss.gitborad.repository.HashtagRepository;
-import com.oss.gitborad.repository.ProjectHashtagRepository;
-import com.oss.gitborad.repository.ProjectRepository;
-import com.oss.gitborad.repository.UserRepository;
-import com.oss.gitborad.service.ProjectService;
+import com.oss.gitboard.data.domain.Hashtag;
+import com.oss.gitboard.data.domain.Project;
+import com.oss.gitboard.data.domain.ProjectHashtag;
+import com.oss.gitboard.data.domain.User;
+import com.oss.gitboard.data.dto.ProjectDTO;
+import com.oss.gitboard.data.dto.UserDTO;
+import com.oss.gitboard.data.model.GitHubRepositoryModel;
+import com.oss.gitboard.repository.HashtagRepository;
+import com.oss.gitboard.repository.ProjectHashtagRepository;
+import com.oss.gitboard.repository.ProjectRepository;
+import com.oss.gitboard.repository.UserRepository;
+import com.oss.gitboard.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
@@ -58,6 +58,19 @@ public class ProjectServiceImpl implements ProjectService {
 
         List<ProjectDTO.Info> pageRequestDTO = new ArrayList<>();
         for (ProjectDTO.Info i : response){
+            pageRequestDTO.add(i);
+        }
+        return pageRequestDTO;
+    }
+
+    @Override
+    public List<ProjectDTO.CardInfo> findAll(int number, int size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(number, size, sort);
+        Page<ProjectDTO.CardInfo> response = projectRepository.findAll(pageable).map(ProjectDTO.CardInfo::new);
+
+        List<ProjectDTO.CardInfo> pageRequestDTO = new ArrayList<>();
+        for (ProjectDTO.CardInfo i : response){
             pageRequestDTO.add(i);
         }
         return pageRequestDTO;
