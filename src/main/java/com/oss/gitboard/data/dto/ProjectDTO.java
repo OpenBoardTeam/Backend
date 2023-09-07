@@ -1,7 +1,7 @@
-package com.oss.gitborad.data.dto;
+package com.oss.gitboard.data.dto;
 
-import com.oss.gitborad.data.domain.Project;
-import com.oss.gitborad.data.model.Owner;
+import com.oss.gitboard.data.domain.Project;
+import com.oss.gitboard.data.model.Owner;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 

@@ -1,6 +1,6 @@
-package com.oss.gitborad.repository;
+package com.oss.gitboard.repository;
 
-import com.oss.gitborad.data.domain.ProjectHashtag;
+import com.oss.gitboard.data.domain.ProjectHashtag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectHashtagRepository extends JpaRepository<ProjectHashtag, Long> {

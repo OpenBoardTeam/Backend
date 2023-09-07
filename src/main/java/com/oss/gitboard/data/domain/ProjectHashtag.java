@@ -1,4 +1,4 @@
-package com.oss.gitborad.data.domain;
+package com.oss.gitboard.data.domain;
 
 import lombok.Builder;
 import lombok.Getter;
