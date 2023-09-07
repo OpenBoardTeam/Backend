@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @RestController
 @Controller
-@RequestMapping("/badge")
+@RequestMapping("/badges")
 public class BadgeController {
     private final BadgeService badgeService;
 

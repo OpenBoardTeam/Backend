@@ -26,7 +26,6 @@ public class HashtagGroup extends Base{
     @OneToMany(mappedBy = "group", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Hashtag> hashtagList = new ArrayList<>();
 
-
     @Builder
     public HashtagGroup(String name){
         this.name = name;

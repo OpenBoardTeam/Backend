@@ -57,4 +57,14 @@ public interface ProjectService {
      * @param principal The authenticated user performing the operation, represented as a UserDTO.Info object.
      */
     void delete(Long id, UserDTO.Info principal);
+
+    /**
+     * Retrieves a paginated list of Project entities based on a keyword search.
+     *
+     * @param number  The page number to retrieve.
+     * @param size    The number of Projects per page.
+     * @param keyword The keyword to search for within Project entities.
+     * @return A list of ProjectDTO.CardInfo objects containing details of each Project that matches the keyword.
+     */
+    List<ProjectDTO.CardInfo> findListBySearch(int number, int size, String keyword);
 }

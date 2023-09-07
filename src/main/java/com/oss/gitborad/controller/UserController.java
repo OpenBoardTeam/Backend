@@ -5,7 +5,6 @@ import com.oss.gitborad.data.dto.ResponseDTO;
 import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.UserService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
