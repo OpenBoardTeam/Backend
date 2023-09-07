@@ -39,6 +39,41 @@ public class HashtagDTO {
         }
     }
 
+
+
+    @Data
+    @ToString
+    @ApiModel("HashtagInfoByCertified")
+    public static class InfoByCertified {
+        private List<String> group;
+        private List<String> social;
+        private List<String> language;
+        private List<String> framework;
+        private List<String> infra;
+        public InfoByCertified(Hashtag hashtag, Boolean certified){
+            this.group = hashtag.getGroup().getHashtagList().stream()
+                    .filter(x -> x.getGroup().getName().equals("Group") && x.isCertified() == certified)
+                    .map(x -> x.getName())
+                    .collect(Collectors.toList());
+            this.social = hashtag.getGroup().getHashtagList().stream()
+                    .filter(x -> x.getGroup().getName().equals("Social") && x.isCertified() == certified)
+                    .map(x -> x.getName())
+                    .collect(Collectors.toList());
+            this.language =  hashtag.getGroup().getHashtagList().stream()
+                    .filter(x -> x.getGroup().getName().equals("Language") && x.isCertified() == certified)
+                    .map(x -> x.getName())
+                    .collect(Collectors.toList());
+            this.framework = hashtag.getGroup().getHashtagList().stream()
+                    .filter(x -> x.getGroup().getName().equals("Framework") && x.isCertified() == certified)
+                    .map(x -> x.getName())
+                    .collect(Collectors.toList());
+            this.infra = hashtag.getGroup().getHashtagList().stream()
+                    .filter(x -> x.getGroup().getName().equals("Infra") && x.isCertified() == certified)
+                    .map(x -> x.getName())
+                    .collect(Collectors.toList());
+        }
+    }
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -75,7 +110,7 @@ public class HashtagDTO {
 
     @Data
     @ToString
-    @ApiModel("HashtagGroupList")
+    @ApiModel("HashtagGroupListByCertified")
     public static class GroupListInfo{
         private List<String> certifiedList;
         private List<String> uncertifiedList;

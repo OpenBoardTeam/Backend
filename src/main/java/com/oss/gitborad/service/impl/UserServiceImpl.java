@@ -22,7 +22,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 @Transactional
 public class UserServiceImpl extends DefaultOAuth2UserService implements UserService {
-
     final private UserRepository userRepository;
     final private BadgeRepository badgeRepository;
     final private UserBadgeRepository userBadgeRepository;
