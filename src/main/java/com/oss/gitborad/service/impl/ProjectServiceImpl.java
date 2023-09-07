@@ -64,17 +64,29 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<ProjectDTO.CardInfo> findListBySearch(int number, int size, String keyword) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(number, size, sort);
+        Page<ProjectDTO.CardInfo> response = projectRepository.findByNameContainingOrDescriptionContaining(keyword, keyword, pageable).map(ProjectDTO.CardInfo::new);
+
+        List<ProjectDTO.CardInfo> pageRequestDTO = new ArrayList<>();
+        for (ProjectDTO.CardInfo i : response){
+            pageRequestDTO.add(i);
+        }
+        return pageRequestDTO;
+    }
+
+    @Override
     public ProjectDTO.Info save(ProjectDTO.Request requestDTO) {
         User user = userRepository.getById(requestDTO.getUserId());
 
         Project project = Project.builder()
                 .name(requestDTO.getName())
                 .description(requestDTO.getDescription())
+                .simpleDescription(requestDTO.getSimpleDescription())
                 .gitUrl(requestDTO.getGitUrl())
                 .user(user)
                 .build();
-
-        projectRepository.save(project);
 
         for(String i : requestDTO.getHashtagList()){
             Hashtag hashtag = hashtagRepository.findByName(i);
@@ -84,6 +96,7 @@ public class ProjectServiceImpl implements ProjectService {
                     .hashtag(hashtag)
                     .build();
 
+            projectRepository.save(project);
             projectHashtagRepository.save(projectHashtag);
 
         }
@@ -92,11 +105,6 @@ public class ProjectServiceImpl implements ProjectService {
         ProjectDTO.Info findOneDto = new ProjectDTO.Info(project);
 
         return findOneDto;
-    }
-
-    @Override
-    public void update(ProjectDTO.Request requestDTO) {
-
     }
 
     @Override

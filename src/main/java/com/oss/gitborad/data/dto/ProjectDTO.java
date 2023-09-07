@@ -8,6 +8,7 @@ import lombok.*;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 public class ProjectDTO {
@@ -19,14 +20,16 @@ public class ProjectDTO {
         private Long id;
         private String name;
         private String description;
-        private String simple_description;
+        private String simpleDescription;
         private String gitUrl;
         private String userName;
-        private List<String> Group;
-        private List<String> Social;
-        private List<String> Language;
-        private List<String> Framework;
-        private List<String> Infra;
+
+        private List<String> group;
+        private List<String> social;
+        private List<String> language;
+        private List<String> framework;
+        private List<String> infra;
+
         private LocalDateTime createdAt;
         private LocalDateTime updateAT;
 
@@ -35,11 +38,53 @@ public class ProjectDTO {
             this.id = project.getId();
             this.name = project.getName();
             this.description = project.getDescription();
-            this.simple_description = project.getSimple_description();
+            this.simpleDescription = project.getSimpleDescription();
             this.gitUrl = project.getGitUrl();
             this.userName = project.getUser().getName();
-            //TODO: 해시태그 리스트 출력 반복문으로 간소화
+            this.group= project.getHashtagList().stream()
+                    .filter(x -> x.getHashtag().getGroup().getName().equals("Group"))
+                    .map(x -> x.getHashtag().getName())
+                    .collect(Collectors.toList());
+            this.social= project.getHashtagList().stream()
+                    .filter(x -> x.getHashtag().getGroup().getName().equals("Social"))
+                    .map(x -> x.getHashtag().getName())
+                    .collect(Collectors.toList());
+            this.language= project.getHashtagList().stream()
+                    .filter(x -> x.getHashtag().getGroup().getName().equals("Language"))
+                    .map(x -> x.getHashtag().getName())
+                    .collect(Collectors.toList());
+            this.framework= project.getHashtagList().stream()
+                    .filter(x -> x.getHashtag().getGroup().getName().equals("Framework"))
+                    .map(x -> x.getHashtag().getName())
+                    .collect(Collectors.toList());
+            this.infra= project.getHashtagList().stream()
+                    .filter(x -> x.getHashtag().getGroup().getName().equals("Infra"))
+                    .map(x -> x.getHashtag().getName())
+                    .collect(Collectors.toList());
+            this.createdAt = project.getCreatedAt();
+            this.updateAT = project.getUpdatedAt();
+        }
+    }
 
+    @Data
+    @ToString
+    @ApiModel("ProjectCardInfo")
+    public static class CardInfo {
+        private Long id;
+        private String name;
+        private String simpleDescription;
+        private List<String> hashtagList;
+        private LocalDateTime createdAt;
+        private LocalDateTime updateAT;
+
+        public CardInfo(Project project){
+
+            this.id = project.getId();
+            this.name = project.getName();
+            this.simpleDescription = project.getSimpleDescription();
+            this.hashtagList= project.getHashtagList().stream()
+                    .map(x -> x.getHashtag().getName())
+                    .collect(Collectors.toList());
             this.createdAt = project.getCreatedAt();
             this.updateAT = project.getUpdatedAt();
         }
@@ -54,7 +99,7 @@ public class ProjectDTO {
     public static class Request {
         private String name;
         private String description;
-        private String simple_description;
+        private String simpleDescription;
         private String gitUrl;
         private Long userId;
         private List<String> hashtagList;

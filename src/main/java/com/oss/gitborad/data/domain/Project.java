@@ -26,8 +26,8 @@ public class Project extends Base{
     @Column(columnDefinition = "text")
     private String description;
 
-    @Column(columnDefinition = "text")
-    private String simple_description;
+    @Column(columnDefinition = "text", name = "simple_description")
+    private String simpleDescription;
 
     @Column(name = "git_url", columnDefinition = "text")
     private String gitUrl;
@@ -43,10 +43,10 @@ public class Project extends Base{
     private List<ProjectHashtag> hashtagList = new ArrayList<>();
 
     @Builder
-    public Project(String name, String description, String simple_description, String gitUrl, String type, String ownerUrl, User user){
+    public Project(String name, String description, String simpleDescription, String gitUrl, String type, User user){
         this.name = name;
         this.description = description;
-        this.simple_description = simple_description;
+        this.simpleDescription = simpleDescription;
         this.gitUrl = gitUrl;
         this.type = type;
         this.user = user;

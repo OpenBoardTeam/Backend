@@ -6,7 +6,6 @@ import com.oss.gitborad.data.dto.ResponseDTO;
 import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.InterestService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,7 @@ import java.util.List;
 
 @RestController
 @Controller
-@RequestMapping("/interest")
+@RequestMapping("/interests")
 public class InterestController {
     private final InterestService interestService;
 
@@ -24,7 +23,7 @@ public class InterestController {
         this.interestService = interestService;
     }
 
-    @GetMapping("/list/{userId}")
+    @GetMapping("/user/{userId}") // TODO: Move to `/users/:username/interests`
     @ApiOperation(value = "관심사 리스트 조회", notes = "사용자 id로 관심사 리스트 조회")
     public ResponseEntity<ResponseDTO<List<InterestDTO.Info>>> findListByUser(@PathVariable Long userId) {
         List<InterestDTO.Info> findList = interestService.findListByUser(userId);

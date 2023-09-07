@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-
     Page<Project> findByUser(User user, Pageable pageable);
     int countByUser(User user);
+
+    Page<Project> findByNameContainingOrDescriptionContaining(String nameKeyword, String descKeyword, Pageable pageable);
+
 }

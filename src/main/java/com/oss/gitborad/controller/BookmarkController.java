@@ -6,7 +6,6 @@ import com.oss.gitborad.data.dto.ResponseDTO;
 import com.oss.gitborad.data.dto.UserDTO;
 import com.oss.gitborad.service.BookmarkService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,7 @@ import java.util.List;
 
 @RestController
 @Controller
-@RequestMapping("/bookmark")
+@RequestMapping("/bookmarks")
 public class BookmarkController {
     private final BookmarkService bookmarkService;
 
@@ -24,7 +23,7 @@ public class BookmarkController {
         this.bookmarkService = bookmarkService;
     }
 
-    @GetMapping("/list/{userId}")
+    @GetMapping("/user/{userId}") // TODO: Move to `/users/:username/bookmarks`
     @ApiOperation(value = "북마크 리스트 조회", notes = "사용자 id로 북마크 리스트 조회")
     public ResponseEntity<ResponseDTO<List<BookmarkDTO.InfoForList>>> findListByUser(@PathVariable Long userId) {
         List<BookmarkDTO.InfoForList> findList = bookmarkService.findListByUser(userId);
@@ -33,7 +32,7 @@ public class BookmarkController {
     }
 
     @PostMapping
-    @ApiOperation(value = "북마크 생성")
+    @ApiOperation(value = "북마크 생성") // TODO: Get user info by `@AuthenticationPrincipal`
     public ResponseEntity<ResponseDTO<BookmarkDTO.Info>> save(@RequestBody BookmarkDTO.Request requestDTO){
         BookmarkDTO.Info saveDTO = bookmarkService.save(requestDTO);
 

@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface HashtagRepository extends JpaRepository<Hashtag, Long> {
     Page<Hashtag> findByGroup(HashtagGroup hashtagGroup, Pageable pageable);
     Page<Hashtag> findByWriter(User writer, Pageable pageable);
-
+    Page<Hashtag> findByCertified(Boolean certified, Pageable pageable);
     Page<Hashtag> findAll(Pageable pageable);
 
     int countByGroup(HashtagGroup hashtagGroup);

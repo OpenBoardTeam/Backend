@@ -22,7 +22,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 @Transactional
 public class UserServiceImpl extends DefaultOAuth2UserService implements UserService {
-
     final private UserRepository userRepository;
     final private BadgeRepository badgeRepository;
     final private UserBadgeRepository userBadgeRepository;
@@ -76,8 +75,9 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
 
     @Override
-    public UserDTO.InfoForAll findOne(Long id) {
-        User user = userRepository.getById(id);
+    public UserDTO.InfoForAll findOne(String username) {
+        User user = userRepository.findByUsername(username).orElse(null);
+        if(user == null) return null;
 
         return new UserDTO.InfoForAll(user);
     }
@@ -90,5 +90,10 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
                 .build();
 
         userBadgeRepository.save(userBadge);
+    }
+
+    @Override
+    public void deleteUserById(Long userId) {
+        userRepository.deleteById(userId);
     }
 }
