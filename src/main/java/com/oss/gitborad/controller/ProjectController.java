@@ -3,7 +3,6 @@ package com.oss.gitborad.controller;
 import com.oss.gitborad.data.dto.*;
 import com.oss.gitborad.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -30,9 +29,21 @@ public class ProjectController {
     }
 
     @GetMapping("/user/{userId}") // TODO: Move to `/users/:username/repos`
-    @ApiOperation(value = "내가 작성한 프로젝트 글 조회")
+    @ApiOperation(value = "사용자 별 프로젝트 글 조회")
     public ResponseEntity<ResponseDTO<List<ProjectDTO.Info>>> findListByUser(@PathVariable Long userId) {
         List<ProjectDTO.Info> findList = projectService.findListByUser(userId);
+
+        return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findList));
+    }
+
+    @GetMapping("/search/keyword/{keyword}/page-number/{number}/size/{size}")
+    @ApiOperation(value = "제목 및 내용 검색")
+    public ResponseEntity<ResponseDTO<List<ProjectDTO.CardInfo>>> findListBySearch(
+            @PathVariable String keyword,
+            @PathVariable int number,
+            @PathVariable int size
+    ) {
+        List<ProjectDTO.CardInfo> findList = projectService.findListBySearch(number, size, keyword);
 
         return ResponseEntity.ok(ResponseDTO.of(ResponseCode.SUCCESS, null, findList));
     }
